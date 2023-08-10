@@ -34,7 +34,7 @@ const autorProductsSlice = createSlice({
             state.user_id = null;
         },
         updateAutorProducts: (state, action) => {
-            state.entities = [action.payload, ...state.entities];
+            state.entities.unshift(action.payload); // =  [action.payload, ...state.entities];
         }
     }
 });

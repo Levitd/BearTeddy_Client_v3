@@ -1,7 +1,7 @@
 import httpService from "./http.service";
 // import localStorageService from "./localStorage.service";
 
-const viewedEndpoint = "viewed_product/";
+const viewedEndpoint = "statistic/";
 
 const ViewedService = {
     get: async () => {
@@ -17,14 +17,13 @@ const ViewedService = {
     //     return data;
     // },
     put: async (payload) => {
-        const { data } = await httpService.put(viewedEndpoint + payload._id, payload);
+        const { data } = await httpService.post(viewedEndpoint, payload);
         return data;
     },
     getViewed: async (_id) => {
         const { data } = await httpService.get(viewedEndpoint, {
             params: {
-                orderBy: '"_id"',
-                equalTo: `"${_id}"`
+                user_id: `${_id}`
             }
         });
         return data;

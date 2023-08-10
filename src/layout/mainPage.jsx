@@ -42,7 +42,7 @@ const MainPage = ({ locale }) => {
     return (
         <>
             <div className="mb-20 lg:mb-0" >
-                <Page border=" rounded border-0 shadow-none lg:border-2 lg:shadow-md">
+                <Page border=" rounded border-0 shadow-none lg:border-2 lg:shadow-md" pageMargin={""}>
                     <div className="main">
                         <div className="flex flex-col lg:flex-row">
                             <InputSearch name="search" placeholder={placeholder} />
@@ -60,7 +60,7 @@ const MainPage = ({ locale }) => {
                         </div>
                     </div>
                 </Page>
-                <ProductList list="all" title={intl.messages.the_newest} />
+                <ProductList list="all" title={"the_newest"} />
                 <ViewedList title={"recently_viewed"} />
             </div>
         </>

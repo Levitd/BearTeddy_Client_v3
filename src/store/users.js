@@ -96,11 +96,12 @@ export const logIn = ({ payload, redirect }) => async (dispatch) => {
     try {
         const data = await authService.login({ email, password });
         dispatch(loadShops(data.localId));
-        dispatch(authRequestSuccess({ userId: data.localId }));
+        dispatch(authRequestSuccess({ userId: data.localId ,email:email}));
         localStorageService.setTokens(data);
         history.push(redirect);
         // history.push("/");
     } catch (error) {
+        console.log(error)
         const { code, message } = error.response.data.error;
         console.log(code, message);
         if (code === 400) {
@@ -121,7 +122,6 @@ export const signUp = ({ email, password, ...rest }, redirect) => async (dispatc
         dispatch(createUser({
             _id: data.localId,
             email,
-            image: "",
             ...rest
         }));
         // history.push(redirect);
@@ -161,7 +161,7 @@ function createUser(payload) {
 
 export const apdateUser = (payload) => async (dispatch, getState) => {
     try {
-        const { content } = await UserService.put(payload);
+        const { content } = await UserService.patch(payload);
         dispatch(userUpdated(content));
     } catch (error) {
         dispatch(userUpdatedFailed(error.message));
@@ -203,6 +203,7 @@ export const getIsLoggedIn = () => state => state.users.isloggedIn;
 export const getDataStatus = () => state => state.users.dataLoaded;
 export const getUsersLoadingStatus = () => state => state.users.isLoading;
 export const getCurrentUserId = () => state => state.users.auth?.userId;
+export const getCurrentUserEmail = () => state => state.users.auth?.email;
 export const getAuthErrors = () => (state) => state.users.error;
 export const getShopUser = () => (state) => state.users.error;
 

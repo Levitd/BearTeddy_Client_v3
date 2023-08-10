@@ -15,6 +15,9 @@ import AboutAutor from "../components/ui/aboutAutor";
 import Comments from "../components/ui/comments";
 import { PencilSquareIcon } from '@heroicons/react/24/solid';
 import { getLastViwed } from "../services/localStorage.service";
+import TimeAgo from "../components/timeAgo";
+import EyeView from "../components/EyeView";
+import Heart from "../components/Heart";
 
 const ProductPage = () => {
     const dispatch = useDispatch();
@@ -46,7 +49,7 @@ const ProductPage = () => {
 
     // Viewed
     useEffect(() => {
-        console.log(getLastViwed(), idActiveProduct);
+        // console.log(getLastViwed(), idActiveProduct);
         if (getLastViwed() !== idActiveProduct) {
             dispatch(updateViewedProducts(activeProduct, currentUser, idActiveProduct));
         }
@@ -62,24 +65,24 @@ const ProductPage = () => {
             )}
             {loadedDataAP && (
 
-                <Page title={activeProduct.name} noTranslate={true} widthScreen="flex flex-row flex-wrap gap-5 mb-20 lg:mb-2">
+                <Page title={activeProduct.name} noTranslate={true} backArrow={true} widthScreen="flex flex-row flex-wrap gap-5 mb-20 lg:mb-2">
                     <div className="grid grid-row gap-5 grid-cols-1 md:grid-cols-3 xl:grid-cols-6">
-                        <div>
+                        <div className={"relative"}>
                             {isLoggedIn && currentUser === activeProduct.user_id &&
                                 <div className="relative">
                                     <NavLink to={"/myshop/products/" + activeProduct._id + "/edit"}>
-                                        <PencilSquareIcon className="h-12 w-12 text-slate-600 hover:text-slate-900 p-2 absolute cursor-pointer hover:scale-150 transition-transform duration-300 left-3 top-3" />
+                                        <PencilSquareIcon className="h-12 w-12 text-slate-600 hover:text-slate-900 p-2 absolute cursor-pointer hover:scale-150 transition-transform duration-300  left-14 lg:left-3 top-3" />
                                     </NavLink>
                                 </div>
                             }
                             {activeProduct.image && activeProduct.image.length > 0 &&
-                                <img className="inline-block w-32 sm:w-56 md:w-64 rounded-md h-auto border-2 shadow-inner" src={`${configFile.imgPreviewPathFirebaseStorige}${activeProduct.image[0].name}?alt=media&token=${activeProduct.image[0].token}`} alt="" key={`activeProductImage_${activeProduct.image[0].name}`} />
+                                <img className="mx-auto w-72 sm:w-56 md:w-64 rounded-md h-auto border-2 shadow-inner" src={`${configFile.imgPreviewPathFirebaseStorige}${activeProduct.image[0].name}?alt=media&token=${activeProduct.image[0].token}`} alt="" key={`activeProductImage_${activeProduct.image[0].name}`} />
                             }
-                            {/* <img
-                                src={configFile.imgPreviewPathFirebaseStorige + activeProduct.img[0]}
-                                className='inline-block w-32 sm:w-56 md:w-64 rounded-md h-auto border-2 shadow-inner'
-                                alt={`Prodict${activeProduct.name}`}
-                            /> */}
+                            <div className="flex flex-row flex-nowrap justify-between content-center bg-slate-200 mt-5 p-1 pt-2">
+                                <TimeAgo timeX={activeProduct.createdAt}/>
+                                <EyeView viewed={activeProduct.viewed}/>
+                                <Heart heart={84} />
+                            </div>
                         </div>
                         <div className="rounded-md h-auto border-2 shadow-inner bg-white text-blue-900  text-sm lg:text-base font-normal p-2 md:col-span-2 xl:col-span-3">
                             <p>{activeProduct.about}</p>

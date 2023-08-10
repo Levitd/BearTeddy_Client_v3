@@ -12,10 +12,9 @@ const ProductNew = () => {
 
     // Active Product Loading
 
-    let productId = nanoid();
+    let productId = ""; // nanoid();
 
     let activeProduct = {
-        _id: productId,
         name: "",
         about: "",
         price: "",

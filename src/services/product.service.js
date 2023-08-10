@@ -1,4 +1,5 @@
 import httpService from "./http.service";
+import {json} from "react-router-dom";
 // import localStorageService from "./localStorage.service";
 
 const productEndpoint = "product/";
@@ -9,30 +10,30 @@ const ProductService = {
         return data;
     },
     create: async (payload) => {
-        const { data } = await httpService.put(productEndpoint + payload._id, payload);
+        const { data } = await httpService.post(productEndpoint, payload);
         return data;
     },
     // getCurrentUser: async () => {
     //     const { data } = await httpService.get(userEndpoint + localStorageService.getUserId());
     //     return data;
     // },
-    put: async (payload) => {
-        const { data } = await httpService.put(productEndpoint + payload._id, payload);
+    patch: async (payload) => {
+        const { data } = await httpService.patch(productEndpoint + payload._id, payload);
+        return data;
+    },
+    getArray: async (array) => {
+        const newArray = JSON.stringify(array)
+        const { data } = await httpService.get(productEndpoint+'array?array='+newArray);
         return data;
     },
     getProducts: async (_id) => {
-        const { data } = await httpService.get(productEndpoint, {
-            params: {
-                orderBy: '"create"'
-            }
-        });
+        const { data } = await httpService.get(productEndpoint );
         return data;
     },
     getProductsById: async (_id) => {
         const { data } = await httpService.get(productEndpoint, {
             params: {
-                orderBy: '"_id"',
-                equalTo: `"${_id}"`
+                _id: `${_id}`
             }
         });
         return data;
@@ -40,8 +41,7 @@ const ProductService = {
     getProductsByIdAutor: async (_id) => {
         const { data } = await httpService.get(productEndpoint, {
             params: {
-                orderBy: '"user_id"',
-                equalTo: `"${_id}"`
+                user_id: `${_id}`
             }
         });
         return data;

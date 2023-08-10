@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAutorsProductList, loadAutorProducts } from "../../store/autorProducts";
 import { getAutorOfProduct } from "../../store/activeProduct";
 import SpinnerLader from "../SpinnerLoader";
+import TimeAgo from "../timeAgo";
 
 const MoreFromAutordList = ({ title, addStyle }) => {
     const dispatch = useDispatch();
@@ -40,24 +41,10 @@ const MoreFromAutordList = ({ title, addStyle }) => {
                                                     <img className="inline-block rounded-t-md h-auto border-2 shadow-inner" src={`${configFile.imgPreviewPathFirebaseStorige}${prod.image[0].name}?alt=media&token=${prod.image[0].token}`} alt="" key={`activeProductImage_${prod.image[0].name}`} />
                                                 }
                                             </div>
-                                            {/* <img
-                                                src={configFile.imgPreviewPath + prod.img[0]}
-                                                className='inline-block w-32 sm:w-36 md:w-40 rounded-t-md h-auto border-2 shadow-inner'
-                                                alt={`Prodict${prod.name}`}
-                                            /> */}
                                         </NavLink>
                                         <div className="px-2 bg-slate-100  rounded-b-md border-2 shadow-inner">
                                             <div className="line-clamp-1 text-sm lg:text-base font-normal text-sky-800 text-center">{prod.name}</div>
-                                            <div className="text-xs lg:text-sm font-light text-gray-600 ">
-                                                {
-                                                    ((prod.create - Date.now()) / 1000 > -2678400) &&
-                                                    <FormattedRelativeTime value={(prod.create - Date.now()) / 1000} numeric="auto" updateIntervalInSeconds={60} />
-                                                }
-                                                {
-                                                    ((prod.create - Date.now()) / 1000 < -2678400) &&
-                                                    <FormattedDate value={prod.create} year="numeric" month="long" day="2-digit" />
-                                                }
-                                            </div>
+                                            <TimeAgo timeX={prod.createdAt}/>
                                         </div>
 
                                     </div>

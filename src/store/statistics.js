@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import StatisticsService from "../services/statistics.service";
 import { deleteLastViwed } from "../services/localStorage.service";
+import {viewedProduct} from "./products";
 
 const initialState = {
     entities: null,
@@ -42,8 +43,10 @@ const { statisticsRequested, statisticsCreated, statisticsReceved, statisticsReq
 export const updateStatistics = (payload) => async (dispatch, getState) => {
     try {
         const { content } = await StatisticsService.put(payload);
-        dispatch(statisticsCreated(content));
-        console.log("delete Lst Viewed");
+        if (!Array.isArray(content)){
+            dispatch(statisticsCreated(content));
+            dispatch(viewedProduct(content.product_id));
+        }
         deleteLastViwed();
     } catch (error) {
         deleteLastViwed();

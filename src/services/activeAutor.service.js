@@ -6,8 +6,7 @@ const ActiveAutorService = {
     getAutorById: async (_id) => {
         const { data } = await httpService.get(activeAutorEndpoint, {
             params: {
-                orderBy: '"_id"',
-                equalTo: `"${_id}"`
+                _id: `${_id}`
             }
         });
         return data;

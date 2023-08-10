@@ -52,6 +52,7 @@ function App() {
                 {/* {shopLoading && */}
                 <IntlProvider messages={messages[currentLocale]} locale={currentLocale} defaultLocale={LOCALES.ENGLISH}>
                     <NavBar handleChange={handleChangeLang} shop={shop} isLoggedIn={isLoggedIn} />
+                    <div className={"bg-slate-700"}>
                     <Routes>
                         <Route path="/" element={<MainPage locale={currentLocale} />} />
                         <Route path="autors" element={<AutorsPage />} />
@@ -71,6 +72,7 @@ function App() {
                         <Route path="personalArea" element={isLoggedIn ? <PersonalArea /> : <Navigate to="/auth/login" state={{ referrer: location }} />} />
                         <Route path="*" element={<Navigate to="/" />} />
                     </Routes>
+                    </div>
                 </IntlProvider>
                 {/* } */}
             </AppLoader>

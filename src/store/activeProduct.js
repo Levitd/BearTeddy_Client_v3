@@ -16,7 +16,7 @@ const activeProductsSlice = createSlice({
             state.dataLoaded = false;
         },
         activeProductsReceved: (state, action) => {
-            state.entities = action.payload[0];
+            state.entities = action.payload;
             state.isLoading = false;
             state.dataLoaded = true;
         },

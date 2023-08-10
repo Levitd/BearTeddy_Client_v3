@@ -6,8 +6,7 @@ const AutorProductsService = {
     getProductsByIdUser: async (_id) => {
         const { data } = await httpService.get(autorProductsEndpoint, {
             params: {
-                orderBy: '"user_id"',
-                equalTo: `"${_id}"`
+                user_id: `${_id}`
             }
         });
         return data;

@@ -4,7 +4,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 import FormComponent, { ButtonField, SubmitCancelButton } from "../common/form";
 import TextField from "../common/form/textField";
 import TextAreaField from "../common/form/textAreaField";
-import { updateProduct } from "../../store/products";
+import {createProduct, updateProduct} from "../../store/products";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import configFile from "../../config.json";
@@ -18,7 +18,7 @@ import Title from "../title";
 const ProductEditForm = ({ path, currentUser, param, productId, activeProduct }) => {
     const intl = useIntl();
     const dispatch = useDispatch();
-    const savedData = { ...activeProduct };
+    const savedData = { ...activeProduct, price: String(activeProduct.price), shipping: String(activeProduct.shipping)  };
     const navigate = useNavigate();
     let newAP = { ...savedData };
 
@@ -47,8 +47,8 @@ const ProductEditForm = ({ path, currentUser, param, productId, activeProduct })
 
     const handleSubmit = (data) => {
         const haveImage = data.image ? [...data.image] : [];
-
-        console.log(haveImage)
+        data.currencies = "USD"
+        console.log(data)
         const files = document.querySelector(`#avatar`).files;
 
         if (files && files.length > 0) {
@@ -77,7 +77,11 @@ const ProductEditForm = ({ path, currentUser, param, productId, activeProduct })
         }
     };
     function UpLoad(data) {
-        dispatch(updateProduct(data));
+        if(data._id) {
+            dispatch(updateProduct(data));
+        } else {
+            dispatch(createProduct(data))
+        }
         dispatch(updateActiveProduct(data));
         toast.info(intl.messages["data_saved"]);
         navigate(-1);
@@ -105,15 +109,14 @@ const ProductEditForm = ({ path, currentUser, param, productId, activeProduct })
     //
     const images = (activeProduct.image) ? activeProduct.image : [];
     //TODO сделать перетаскиванием установку главного фото
-    const imageMain = images.length > 1 ? [images[0]] : [];
-    const imagesNext = images.length > 2 ? images.filter((i, idx) => idx > 0) : [];
-    console.log(imageMain, imagesNext);
+    const imageMain = images.length > 0 ? [images[0]] : [];
+    const imagesNext = images.length > 1 ? images.filter((i, idx) => idx > 0) : [];
     return (
-        <Page title={activeProduct.name ? activeProduct.name : "Добавление нового товара"} noTranslate={true} widthScreen="w-full my-5 px-5 p-5 mx-auto bg-state-300 rounded border-2 shadow-md">
+        <Page backArrow={true} title={activeProduct.name ? activeProduct.name : "Добавление нового товара"} noTranslate={true} widthScreen="w-full lg:my-5 lg:px-5 lg:p-5 mx-auto bg-state-300 rounded border-2 shadow-md">
             {/* <div className="flex flex-col lg:flex-row gap-5 relative"> */}
             <div className="flex flex-col lg:grid lg:grid-cols-3 lg:grid-rows-2 gap-5 relative">
 
-                <div className="w-full lg:col-span-2 lg:row-span-2">
+                <div className="w-full lg:col-span-2 lg:row-span-2 lg:p-5 bg-slate-200 p-2">
                     <FormComponent onSubmit={handleSubmit}
                         validatorConfig={validatorConfig}
                         defaultData={savedData}
@@ -123,13 +126,15 @@ const ProductEditForm = ({ path, currentUser, param, productId, activeProduct })
                             id="avatar" name="avatar" multiple
                             accept="image/png, image/jpeg"></input>
 
-                        {/* <img src={firebaseStorigeUrl + activeProduct.image[0].name + "?alt=media&token=" + activeProduct.image[0].token} alt="" /> */}
+                        {/*<img src={firebaseStorigeUrl + activeProduct.image[0].name + "?alt=media&token=" + activeProduct.image[0].token} alt="" /> */}
 
                         {/* <ImgFileld path="imgProfilePath" file={savedData.profile} addClass="h-32 w-auto mx-left mb-2 rounded-md" /> */}
                         <TextField
                             label={<FormattedMessage id='name' />}
                             name="name"
                             autoFocus
+                            required
+
                         />
                         <TextAreaField
                             label={<FormattedMessage id='description' />}
@@ -141,6 +146,7 @@ const ProductEditForm = ({ path, currentUser, param, productId, activeProduct })
                             label={<FormattedMessage id='price' />}
                             name="price"
                             type={"number"}
+                            required
                         />
                         <TextField
                             label={<FormattedMessage id='shipping' />}
@@ -191,27 +197,25 @@ const ProductEditForm = ({ path, currentUser, param, productId, activeProduct })
                     <div className="flex flex-col gap-3 lg:max-w-[350px] mx-auto">
                         {imageMain && imageMain.map((p) => {
                             return (
-                                <>
                                     <div key={`div_${p.name}`} className="relative mx-auto">
-                                        <Title label={"Основное фото"} addStyleTitle="mb-0"></Title>
-                                        <button onClick={HandleTrash} id={p.name} >
-                                            <TrashIcon className="bg-white h-12 w-12 text-red-400 hover:text-red-800 absolute left-4 top-20 cursor-pointer hover:scale-150 transition-transform duration-300" key={`trash_${p.name}`} />
+                                        <Title label={"Основное фото"} addStyleTitle="mb-0" key={"title_photo"}></Title>
+                                        <button key={`b_${p.name}`} onClick={HandleTrash} id={p.name} >
+                                            <TrashIcon className="bg-white h-12 w-12 text-red-400 hover:text-red-800 absolute left-4 top-20 cursor-pointer hover:scale-150 transition-transform duration-300" key={`0trash_${p.name}`} />
                                         </button>
-                                        <img src={`${firebaseStorigeUrl}${p.name}?alt=media&token=${p.token}`} alt="" key={`activeProductImage_${p.name}`} />
+                                        <img src={`${firebaseStorigeUrl}${p.name}?alt=media&token=${p.token}`} alt="" key={`activeProductImage_${p._id}`} />
                                     </div>
-                                </>
                             )
                         })}
                     </div>
                 </div>
                 {imagesNext && imagesNext.map((p) => {
                     return (
-                        <div className="flex flex-col gap-3 lg:max-w-[350px] mx-auto">
+                        <div key={`_div_${p.name}`} className="flex flex-col gap-3 lg:max-w-[350px] mx-auto">
                             <div key={`div_${p.name}`} className="relative">
-                                <button onClick={HandleTrash} id={p.name} >
+                                <button key={`i_${p.name}`} onClick={HandleTrash} id={p.name} >
                                     <TrashIcon className="bg-white h-12 w-12 text-red-400 hover:text-red-800 absolute left-4 top-10 cursor-pointer hover:scale-150 transition-transform duration-300" key={`trash_${p.name}`} />
                                 </button>
-                                <img src={`${firebaseStorigeUrl}${p.name}?alt=media&token=${p.token}`} alt="" key={`activeProductImage_${p.name}`} />
+                                <img src={`${firebaseStorigeUrl}${p.name}?alt=media&token=${p.token}`} alt="" key={`activeProductImage_${p._id}`} />
                             </div>
                         </div>
                     )

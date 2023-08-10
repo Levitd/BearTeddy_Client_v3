@@ -24,7 +24,6 @@ const AboutAutor = ({ title, addStyle }) => {
     useEffect(() => {
         if (autor) setLoad(true);
     }, [load, autor]);
-
     return (
         <>
             {!autor && <SpinnerLader />}
@@ -33,7 +32,7 @@ const AboutAutor = ({ title, addStyle }) => {
                     <div key={"v_" + autor._id} className="h-32 sm:h-36 mx-auto">
                         <div className="flex flex-row">
                             <NavLink to={"/profile/" + autor._id}>
-                                <ImgFileld path="imgProfilePathFirebaseStorige" file={`${(autor.image) ? autor.image[0].name : "no-image-icon.png"}`} token={autor.image ? autor.image[0].token : "f7499845-a9dc-49f5-80ff-bb444a933d15"} addClass="inline-block h-32 sm:h-36 rounded-t-md w-auto border-2 shadow-inner" />
+                                <ImgFileld path="imgProfilePathFirebaseStorige" file={`${(autor.image.length>0) ? autor.image[0].name : "no-image-icon.png"}`} token={autor.image.length>0 ? autor.image[0].token : "f7499845-a9dc-49f5-80ff-bb444a933d15"} addClass="inline-block h-32 sm:h-36 rounded-t-md w-auto border-2 shadow-inner" />
 
                                 {/* <img
                                     src={configFile.imgProfilePath + autor.profile}

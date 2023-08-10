@@ -10,6 +10,7 @@ export function setTokens({ refreshToken, idToken, localId, expiresIn = 3600, ..
     localStorage.setItem(TOKEN_KEY, idToken);
     localStorage.setItem(REFRESH_KEY, refreshToken);
     localStorage.setItem(EXPIRES_KEY, expiresDate);
+    setLoadingRefreshToken(false);
 };
 export function getAccessToken() {
     return localStorage.getItem(TOKEN_KEY);
@@ -39,13 +40,13 @@ export function setViewedProducts(product) {
     if (product) {
         let viewedProducts = getViewedProduct();
         if (!viewedProducts) viewedProducts = [];
-        const viewed = viewedProducts.findIndex((f) => f._id === product._id);
+        const viewed = viewedProducts.findIndex((f) => f.product_id === product._id);
         if (viewed > -1) {
             viewedProducts.splice(viewed, 1);
         } else if (viewedProducts.length === 14) {
             viewedProducts.splice(9, 1);
         }
-        viewedProducts.unshift({ ...product, time_viewed: Date.now() });
+        viewedProducts.unshift({ product_id:product._id, time_viewed: Date.now() });
         localStorage.setItem("viewed", JSON.stringify(viewedProducts));
         return viewedProducts;
     }
@@ -78,7 +79,15 @@ export const uploadImageActiveProductEnd = () => {
     localStorage.setItem("uploadToFitebaseStart", JSON.stringify(false));
     localStorage.setItem("uploadToFitebaseEnd", JSON.stringify(true));
 }
-
+export function removeRefreshToken(){
+    localStorage.removeItem(REFRESH_KEY);
+}
+export function setLoadingRefreshToken(state){
+    localStorage.setItem("loadingRefreshToken", JSON.stringify(state));
+}
+export function getLoadingRefreshToken(e){
+    return JSON.parse(localStorage.getItem("loadingRefreshToken"));
+}
 export function removeAuthData() {
     localStorage.removeItem(USERID_KEY);
     localStorage.removeItem(TOKEN_KEY);

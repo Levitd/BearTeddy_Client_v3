@@ -83,6 +83,7 @@ const RegisterForm = ({ user, appFB }) => {
         // const hasEmail = utils.hasEmail(data.email);
         const sexData = document.getElementsByName("sex")[0].value;
         data = { ...data, sex: sexData };
+        console.log(data)
         const redirect = location.state
             ? location.state.referrer.pathname
             : "/successful_registration";

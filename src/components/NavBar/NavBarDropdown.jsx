@@ -16,14 +16,13 @@ import ImgFileld from "../common/form/img";
 const NavBarDropdown = ({ shop }) => {
     const user = useSelector(getCurrentUserData());
     const handleLogout = useLogout();
-
     return (
         <>
             {(!user && <SpinnerLader />)}
             {user &&
                 <Menu as='div' className='relative border-l-2 hidden lg:block'>
                     <Menu.Button className='flex items-center w-full rounded-md px-4 py-2 text-lg font-medium text-gray-700 hover:text-blue-500 focus:outline-none '>
-                        <ImgFileld path="imgProfilePathFirebaseStorige" file={`${(user.image) ? user.image[0].name : "no-image-icon.png"}`} token={user.image ? user.image[0].token : "f7499845-a9dc-49f5-80ff-bb444a933d15"} addClass="inline-block h-8 rounded-xl pr-2 w-auto" />
+                        <ImgFileld path="imgProfilePathFirebaseStorige" file={`${(user.image.length>0) ? user.image[0].name : "no-image-icon.png"}`} token={user.image.length>0 ? user.image[0].token : "f7499845-a9dc-49f5-80ff-bb444a933d15"} addClass="inline-block h-8 rounded-xl pr-2 w-auto" />
 
                         {/* <img
                             src={configFile.imgProfilePath + user.profile}

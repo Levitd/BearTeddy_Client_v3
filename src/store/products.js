@@ -24,7 +24,7 @@ const productsSlice = createSlice({
             if (!Array.isArray(state.entities)) {
                 state.entities = [];
             }
-            state.entities.push(action.payload);
+            state.entities.unshift(action.payload);
         },
         productReceved: (state, action) => {
             state.entities = action.payload;
@@ -53,10 +53,19 @@ const productsSlice = createSlice({
         productUpdatedFailed: (state, action) => {
             state.error = action.payload;
         },
+        productViewed:(state, action)=> {
+            state.entities=state.entities.map((s)=>{
+                if (s._id===action.payload){
+                    return {...s, viewed: !('viewed' in s) ? 1: s.viewed+1};
+                } else {
+                    return {...s};
+                }
+            })
+        }
     }
 });
 const { reducer: productReducer, actions } = productsSlice;
-const { productRequested, productCreated, productReceved, productRequestFiled, productLogOut, productUpdated, productUpdatedFailed, productRequestSuccess } = actions;
+const { productViewed, productRequested, productCreated, productReceved, productRequestFiled, productLogOut, productUpdated, productUpdatedFailed, productRequestSuccess } = actions;
 
 // const productCreateRequested = createAction("products/productCreateRequested");
 // const createproductFailed = createAction("products/createproductFailed");
@@ -68,6 +77,8 @@ export const createProduct = (payload, redirect) => async (dispatch) => {
         if (content) {
             dispatch(productRequestSuccess());
             dispatch(productCreated(content));
+            //еще надо вставить в массив продуктов от автора
+            dispatch(addedAutorProduct())
         }
     } catch (error) {
         const { code, message } = error.response.data.error;
@@ -82,7 +93,7 @@ export const createProduct = (payload, redirect) => async (dispatch) => {
 
 export const updateProduct = (payload, nameFile) => async (dispatch, getState) => {
     try {
-        const { content } = await ProductService.put(payload);
+        const { content } = await ProductService.patch(payload);
         dispatch(productUpdated(content));
         dispatch(addedAutorProduct(content));
         if (nameFile) DeleteFileInFireBaseStorage(nameFile, "imgPreviewPath");
@@ -104,6 +115,9 @@ export const loadProducts = () => async (dispatch, getState) => {
         }
     }
 };
+export const viewedProduct = (_id) => async (dispatch)=>{
+    dispatch(productViewed(_id));
+}
 // export const loadProductById = (id) => async (dispatch, getState) => {
 //     if (!dispatch(getActiveProductLoading())) {
 //         dispatch(productActiveRequested());

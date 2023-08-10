@@ -1,6 +1,8 @@
 {
-    "apiEndPoint":"https://bearteddy-263cb-default-rtdb.europe-west1.firebasedatabase.app/",
-    "isFireBase":true,
+    "apiEndPointFirebase":"https://bearteddy-263cb-default-rtdb.europe-west1.firebasedatabase.app/",
+    "apiEndPointMongoDB":"http://localhost:8088/api/",
+    "isFireBase":false,
+    "isMongoDB": true,
     "imgPath":"/assets/img/",
     "imgPreviewPath":"img/products/preview/",
     "imgPreviewPathFirebaseStorige":"https://firebasestorage.googleapis.com/v0/b/bearteddy-263cb.appspot.com/o/img%2Fproducts%2Fpreview%2F",

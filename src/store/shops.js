@@ -83,7 +83,7 @@ export const createShop = (payload, redirect) => async (dispatch) => {
 
 export const updateShop = (payload) => async (dispatch, getState) => {
     try {
-        const { content } = await ShopService.put(payload);
+        const { content } = await ShopService.patch(payload);
         dispatch(shopUpdated(content));
     } catch (error) {
         dispatch(shopUpdatedFailed(error.message));

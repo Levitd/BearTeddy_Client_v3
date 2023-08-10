@@ -8,10 +8,14 @@ import { FormattedDate, FormattedRelativeTime } from "react-intl";
 import { HeartIcon } from '@heroicons/react/24/solid';
 import { NavLink, useNavigate } from "react-router-dom";
 import { getAutorsProductIsLoading, getAutorsProductList, getAutorsProductLoaded, loadAutorProducts } from "../../store/autorProducts";
-import { UserPlusIcon } from '@heroicons/react/24/solid';
+import { UserPlusIcon, EyeIcon } from '@heroicons/react/24/solid';
 import { getCurrentUserId, getIsLoggedIn } from "../../store/users";
 import SpinnerLader from "../SpinnerLoader";
 import { getShops } from "../../store/shops";
+import TimeAgo from "../timeAgo";
+import EyeView from "../EyeView";
+import Heart from "../Heart";
+import PriceAndDelivery from "../priceAndDelivery";
 // 
 const ProductList = ({ title, list }) => {
     const navigate = useNavigate();
@@ -32,20 +36,21 @@ const ProductList = ({ title, list }) => {
 
     const products_autor = useSelector(getAutorsProductList());
     const shops = useSelector(getShops());
+    const products_list = useSelector(getProductList());
     useEffect(() => {
         if (isLoggedIn && !isLoadingProductAutor) {
             dispatch(loadAutorProducts(currentUser));
         }
         setIsLoadingProductAutor(loadingProductAutor);
         setloadedData(loadData);
-    }, [isLoggedIn, dispatch, loadData]);
+    }, [isLoggedIn, dispatch, loadData, products_list]);
 
-    const products_list = useSelector(getProductList());
     const products_ = (list === "autor") ? products_autor : products_list;
-
-    if (products_ && shops) {
+    // console.log(list, products_)
+    if (products_ && products_.length>0 && shops) {
         const products = products_.map((p_) => {
-            return { ...p_, nameShop: shops.find((s) => s.user_id === p_.user_id).name };
+            // console.log(p_)
+            return { ...p_, nameShop: shops.find((s) => s.user_id === p_.user_id)?.name || "???" };
         });
         return (
             <Page title={title} widthScreen="flex flex-row flex-wrap gap-5 mt-2 mb-20 lg:mb-2">
@@ -57,15 +62,16 @@ const ProductList = ({ title, list }) => {
                 }
                 {
                     products.map((prod) => {
-                        // console.log(prod);
                         const firebaseStorigeUrl = configFile.imgPreviewPathFirebaseStorige;
                         return (
                             <div key={prod._id} className="w-40 sm:w-56 md:w-64 mx-auto">
                                 <div className="flex flex-col w-full">
                                     <NavLink to={"/myshop/products/" + prod._id}>
+                                        {prod.image.length>0 &&
                                         <div className="w-40 h-60 sm:w-56 sm:h-80 md:w-64 md:h-96 ">
                                             <img className="inline-block rounded-t-md h-auto border-2 shadow-inner" src={`${firebaseStorigeUrl}${prod.image[0].name}?alt=media&token=${prod.image[0].token}`} alt="" key={`activeProductImage_${prod.image[0].name}`} />
                                         </div>
+                                        }
                                     </NavLink>
                                     <div className="px-2 bg-slate-100  rounded-b-md border-2 shadow-inner">
 
@@ -74,23 +80,12 @@ const ProductList = ({ title, list }) => {
                                         </NavLink>
                                         <div className="block text-xs lg:text-sm font-medium text-pink-950 text-center">{`by ${prod.nameShop}`}</div>
                                         <div className="block text-xs lg:text-sm font-light text-slate-500 text-center">{prod.country}</div>
-                                        <div className="block text-sm lg:text-base font-medium text-slate-700 text-center">{prod.price} USD</div>
+                                        {/*<div className="block text-sm lg:text-base font-medium text-slate-700 text-center">{prod.price} USD</div>*/}
+                                        <PriceAndDelivery price={prod.price} shipping={prod.shipping}/>
                                         <div className="flex flex-row flex-nowrap justify-between content-center">
-                                            <div className=" text-xs lg:text-sm font-mono font-light text-slate-400 text-left">
-                                                {
-                                                    ((prod.create - Date.now()) / 1000 > -2678400) &&
-                                                    <FormattedRelativeTime value={(prod.create - Date.now()) / 1000} numeric="auto" updateIntervalInSeconds={60} />
-                                                }
-                                                {
-                                                    ((prod.create - Date.now()) / 1000 < -2678400) &&
-                                                    <FormattedDate value={prod.create} year="numeric" month="long" day="2-digit" />
-                                                }
-                                            </div>
-                                            <div className="flex flex-row flex-nowrap">
-                                                <HeartIcon className="h-6 w-6 text-red-300 hover:text-red-800 pb-2" />
-                                                {/*TODO add like counter   */}
-                                                <div className=" text-xs lg:text-sm font-mono font-light text-slate-400 text-left">{"76"}</div>
-                                            </div>
+                                            <TimeAgo timeX={prod.createdAt}/>
+                                            <EyeView viewed={prod.viewed}/>
+                                            <Heart heart={84} />
                                         </div>
                                     </div>
                                 </div>

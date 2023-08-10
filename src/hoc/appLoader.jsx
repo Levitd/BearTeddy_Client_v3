@@ -23,8 +23,10 @@ const AppLoader = ({ children }) => {
             const userId = localStorageService.getUserId();
             dispatch(loadUserById(userId));
             dispatch(loadShops(userId));
-            dispatch(loadViewedProductsByIdUser(userId));
+            // dispatch(loadViewedProductsByIdUser(userId));
             dispatch(loadAutorProducts(userId));
+        } else {
+            dispatch(loadShops());
         }
     }, [isLoggedIn, dispatch]);
     // if (userStatusLoading) return "Loading...";

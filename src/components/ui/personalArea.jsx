@@ -33,7 +33,10 @@ const PersonalArea = () => {
     const currentUser = useSelector(getCurrentUserData());
 
     if (!isLoading) {
-        savedData = currentUser;
+        savedData = {...currentUser,
+            dateOfBirth:currentUser.dateOfBirth.slice(0,10),
+            telegram: currentUser.socialMedia[0].link
+        };
     }
     const validatorConfig = {
         flName: {
@@ -68,7 +71,9 @@ const PersonalArea = () => {
 
     const handleSubmit = (data) => {
         const sexData = document.getElementsByName("sex")[0].value;
-        data = { ...data, sex: sexData };
+        const telegrammLink = document.getElementsByName("telegram")[0].value;
+        const socialMedia = [{name:"telegramm", link: telegrammLink}];
+        data = { ...data, sex: sexData, socialMedia: socialMedia };
         dispatch(apdateUser(data));
         toast.info(intl.messages["data_saved"]);
     };
@@ -83,13 +88,13 @@ const PersonalArea = () => {
     if (!isLoading && savedData) {
         // console.log((savedData.image));
         return (
-            <Page widthScreen="max-w-lg my-5 px-5 p-5 mx-auto bg-state-300 rounded border-2 shadow-md" title={"personal_data"}>
+            <Page widthScreen="max-w-lg my-5 px-5 p-5 mx-auto bg-state-300 rounded border-2 shadow-md bg-slate-200" title={"personal_data"}>
                 <FormComponent onSubmit={handleSubmit}
                     validatorConfig={validatorConfig}
                     defaultData={savedData}
                     recalculation={recalculation}
                 >
-                    <ImgFileld path="imgProfilePathFirebaseStorige" file={`${(savedData.image) ? savedData.image[0].name : "no-image-icon.png"}`} token={savedData.image ? savedData.image[0].token : "f7499845-a9dc-49f5-80ff-bb444a933d15"} addClass="h-32 w-auto mx-left mb-2 rounded-md" />
+                    <ImgFileld path="imgProfilePathFirebaseStorige" file={`${(savedData.image.length>0) ? savedData.image[0].name : "no-image-icon.png"}`} token={savedData.image.length>0 ? savedData.image[0].token : "f7499845-a9dc-49f5-80ff-bb444a933d15"} addClass="h-32 w-auto mx-left mb-2 rounded-md" />
                     <TextField
                         label={<FormattedMessage id='your_first_and_last_name' />}
                         name="flName"

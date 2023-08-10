@@ -1,7 +1,7 @@
 import httpService from "./http.service";
 // import localStorageService from "./localStorage.service";
 
-const endPoint = "statistics/";
+const endPoint = "statistic/";
 
 const StatisticsService = {
     get: async () => {
@@ -9,7 +9,7 @@ const StatisticsService = {
         return data;
     },
     put: async (payload) => {
-        const { data } = await httpService.put(endPoint + payload._id, payload);
+        const { data } = await httpService.post(endPoint, payload);
         return data;
     }
 };
