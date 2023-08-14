@@ -21,6 +21,11 @@ const commentSlice = createSlice({
             state.dataLoaded = false;
         },
         commentReceved: (state, action) => {
+            state.entities.push(action.payload);
+            state.dataLoaded = true;
+            state.isLoading = false;
+        },
+        commentsReceved: (state, action) => {
             state.entities = action.payload;
             state.dataLoaded = true;
             state.isLoading = false;
@@ -38,7 +43,7 @@ const commentSlice = createSlice({
 });
 
 const { reducer: commentReducer, actions } = commentSlice;
-const { usersCommentReceved,commentRequestFiled,commentRequested, commentReceved } = actions;
+const { commentReceved, usersCommentReceved,commentRequestFiled,commentRequested, commentsReceved } = actions;
 
 export const commentCreate =(data) => async (dispatch)=>{
         dispatch(commentRequested());
@@ -54,7 +59,7 @@ export const loadCommentByProduct=(product_id)=>async (dispatch)=>{
     dispatch(commentRequested());
     try {
         const { content } = await CommentService.getProduct(product_id);
-        dispatch(commentReceved(content));
+        dispatch(commentsReceved(content));
         const userArrayDub = content.map((l)=> l.user_id );
         const userArray = Array.from(new Set(userArrayDub)); //без дубликатов
         const data = await UserService.postArray(userArray);
