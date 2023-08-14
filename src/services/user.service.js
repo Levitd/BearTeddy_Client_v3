@@ -8,6 +8,12 @@ const UserService = {
         const { data } = await httpService.get(userEndpoint);
         return data;
     },
+    postArray: async (array) => {
+        const { data } = await httpService.post(userEndpoint,{
+            array:array
+        });
+        return data;
+    },
     create: async (payload) => {
         const { data } = await httpService.patch(userEndpoint + payload._id, payload);
         return data;

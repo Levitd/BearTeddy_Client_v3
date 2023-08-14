@@ -2,9 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import ProductService from "../services/product.service";
 import CommentService from "../services/comment.service";
 import viewedReducer from "./viewed";
+import UserService from "../services/user.service";
 
 const initialState = {
         entities: null,
+        usersComment:null,
         isLoading: false,
         error: null,
         dataLoaded: false
@@ -23,6 +25,11 @@ const commentSlice = createSlice({
             state.dataLoaded = true;
             state.isLoading = false;
         },
+        usersCommentReceved: (state, action) => {
+            state.usersComment = action.payload;
+            state.dataLoaded = true;
+            state.isLoading = false;
+        },
         commentRequestFiled: (state, action) => {
             state.error = action.payload;
             state.isLoading = false;
@@ -31,7 +38,7 @@ const commentSlice = createSlice({
 });
 
 const { reducer: commentReducer, actions } = commentSlice;
-const { commentRequestFiled,commentRequested, commentReceved } = actions;
+const { usersCommentReceved,commentRequestFiled,commentRequested, commentReceved } = actions;
 
 export const commentCreate =(data) => async (dispatch)=>{
         dispatch(commentRequested());
@@ -43,8 +50,24 @@ export const commentCreate =(data) => async (dispatch)=>{
         }
 };
 
+export const loadCommentByProduct=(product_id)=>async (dispatch)=>{
+    dispatch(commentRequested());
+    try {
+        const { content } = await CommentService.getProduct(product_id);
+        dispatch(commentReceved(content));
+        const userArrayDub = content.map((l)=> l.user_id );
+        const userArray = Array.from(new Set(userArrayDub)); //без дубликатов
+        const data = await UserService.postArray(userArray);
+        dispatch(usersCommentReceved(data.content))
+
+    } catch (error) {
+        dispatch(commentRequestFiled(error.message));
+    }
+}
+
 export const getCommentIsLoading = () => (state) => state.comment.isLoading;
 export const getComment = () => (state) => state.comment.entities;
+export const getCommentsUsers = () => (state) => state.comment.usersComment;
 export const getCommentDataLoaded = () => (state) => state.comment.dataLoaded;
 export const getCommentError = () => (state) => state.comment.error;
 

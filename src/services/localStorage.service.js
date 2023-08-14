@@ -52,7 +52,7 @@ export function setViewedProducts(product) {
     }
 }
 export function getViewedProduct() {
-    return JSON.parse(localStorage.getItem("viewed"));
+    return JSON.parse(localStorage.getItem("viewed")) || [];
 }
 export function setLastViwed(product_id) {
     localStorage.setItem("lastViewed", JSON.stringify(product_id));

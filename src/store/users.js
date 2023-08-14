@@ -18,7 +18,7 @@ const initialState = (localStorageService.getAccessToken())
         auth: { userId: localStorageService.getUserId() },
         isloggedIn: true,
         dataLoaded: false,
-        createShop: ""
+        createShop: "",
     }
     : {
         entities: null,
@@ -27,7 +27,7 @@ const initialState = (localStorageService.getAccessToken())
         auth: null,
         isloggedIn: false,
         dataLoaded: false,
-        createShop: false
+        createShop: false,
     };
 
 const usersSlice = createSlice({
@@ -177,6 +177,15 @@ export const loadUsersList = () => async (dispatch, getState) => {
         dispatch(usersRequestFiled(error.message));
     }
 };
+// export const loadUsersListByArray = (array) => async (dispatch, getState) => {
+//     dispatch(usersRequested());
+//     try {
+//         const { content } = await UserService.postArray(array);
+//         dispatch(usersCommentReceved(content));
+//     } catch (error) {
+//         dispatch(usersRequestFiled(error.message));
+//     }
+// };
 export const loadUserById = (id) => async (dispatch, getState) => {
     dispatch(usersRequested());
     try {

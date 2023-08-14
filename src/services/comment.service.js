@@ -11,6 +11,10 @@ const CommentService = {
         const { data } = await httpService.post(endpoint, payload);
         return data;
     },
+    getProduct: async (payload) => {
+        const {data} = await httpService.get(endpoint+payload);
+        return data;
+    },
 
 }
 

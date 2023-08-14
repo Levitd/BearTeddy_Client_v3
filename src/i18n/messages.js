@@ -118,7 +118,8 @@ export const messages = {
         make_purchase: `Make a purchase`,
         comment_text_must_not_be_empty: `Comment text must not be empty`,
         submit_comment: `Submit Comment`,
-        required: 'Required!'
+        required: 'Required!',
+        no_comments_be_the_first:`No comments, be the first`
     },
     [LOCALES.RUSSIAN]: {
         accept: `Принять`,
@@ -236,6 +237,7 @@ export const messages = {
         make_purchase: `Оформить покупку`,
         comment_text_must_not_be_empty: `Текст комментария не должен быть пустым`,
         submit_comment: `Отправить комментарий`,
-        required: 'Обязательно заполните!'
+        required: 'Обязательно заполните!',
+        no_comments_be_the_first:`Комментариев нет, будьте первым`
     }
 }
