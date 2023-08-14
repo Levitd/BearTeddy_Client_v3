@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Page from "../page";
 import configFile from "../../config.json";
-import { FormattedDate, FormattedRelativeTime } from "react-intl";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAutorsProductList, loadAutorProducts } from "../../store/autorProducts";

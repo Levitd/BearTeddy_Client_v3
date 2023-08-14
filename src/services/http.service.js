@@ -14,12 +14,13 @@ const http = axios.create({
 
 http.interceptors.request.use(
     async function (config) {
+        const expiresDate = localStorageService.getTokenExpiresDate();
+        const refreshToken = localStorageService.getRefreshToken();
+        const isExpired = refreshToken && expiresDate < Date.now();
         if (configFile.isFireBase) {
             const containSlash = /\/$/gi.test(config.url);
             config.url = (containSlash ? config.url.slice(0, -1) : config.url) + ".json";
-            const expiresDate = localStorageService.getTokenExpiresDate();
-            const refreshToken = localStorageService.getRefreshToken();
-            if (refreshToken && expiresDate < Date.now()) {
+            if (isExpired) {
                 const data = await authService.refresh();
                 localStorageService.setTokens({
                     refreshToken: data.refresh_token, idToken: data.id_token, expiresIn: data.expires_in, localId: data.user_id
@@ -33,20 +34,19 @@ http.interceptors.request.use(
         } else if (configFile.isMongoDB) {
             const containSlash = /\/$/gi.test(config.url);
             config.url = (containSlash ? config.url.slice(0, -1) : config.url) ;
-            const expiresDate = localStorageService.getTokenExpiresDate();
-            const refreshToken = localStorageService.getRefreshToken();
             const setState = getLoadingRefreshToken();
 
             if (refreshToken && refreshToken==='undefined'){
                 removeAuthData();
             }
-            if (refreshToken && expiresDate < Date.now() && !setState) {
+            if (isExpired && !setState) {
                 setLoadingRefreshToken(true);
 
                 const data = await authService.refresh();
-                localStorageService.setTokens({
-                    refreshToken: data.refreshToken, idToken: data.idToken, expiresIn: data.expiresIn, localId: data.localId
-                });
+                // localStorageService.setTokens({
+                //     refreshToken: data.refreshToken, idToken: data.idToken, expiresIn: data.expiresIn, localId: data.localId
+                // });
+                localStorageService.setTokens(data);
                 setLoadingRefreshToken(false);
 
             }

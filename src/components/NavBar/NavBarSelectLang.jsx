@@ -18,7 +18,7 @@ const NavBarSelectLang = ({ handleChange }) => {
     const selectClass = "bg-white shadow";
     const unSelectClass = "text-blue-100 hover:bg-white/[0.12] hover:text-white";
     return (
-        <div className="w-full max-w-[5rem] min-w-[5rem] sm:max-w-[5rem] sm:mim-w-[5rem] px-2 py-0 sm:px-0">
+        <div className="w-full max-w-[4rem] min-w-[4rem] sm:max-w-[5rem] sm:mim-w-[5rem] px-2 py-0 sm:px-0">
             <Tab.Group defaultIndex={defaultLang}>
                 <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
                     {languages.map((l) => {

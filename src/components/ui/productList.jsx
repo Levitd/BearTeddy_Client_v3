@@ -3,12 +3,10 @@ import Page from "../page";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductList } from "../../store/products";
 import configFile from "../../config.json";
-// import { displayDate } from "../../utils/displayDate";
-import { FormattedDate, FormattedRelativeTime } from "react-intl";
-import { HeartIcon } from '@heroicons/react/24/solid';
+// import { HeartIcon } from '@heroicons/react/24/solid';
 import { NavLink, useNavigate } from "react-router-dom";
 import { getAutorsProductIsLoading, getAutorsProductList, getAutorsProductLoaded, loadAutorProducts } from "../../store/autorProducts";
-import { UserPlusIcon, EyeIcon } from '@heroicons/react/24/solid';
+import { UserPlusIcon } from '@heroicons/react/24/solid';
 import { getCurrentUserId, getIsLoggedIn } from "../../store/users";
 import SpinnerLader from "../SpinnerLoader";
 import { getShops } from "../../store/shops";
@@ -43,7 +41,7 @@ const ProductList = ({ title, list }) => {
         }
         setIsLoadingProductAutor(loadingProductAutor);
         setloadedData(loadData);
-    }, [isLoggedIn, dispatch, loadData, products_list]);
+    }, [isLoggedIn, dispatch, loadData, loadedData,  products_list]);
 
     const products_ = (list === "autor") ? products_autor : products_list;
     // console.log(list, products_)
@@ -64,11 +62,11 @@ const ProductList = ({ title, list }) => {
                     products.map((prod) => {
                         const firebaseStorigeUrl = configFile.imgPreviewPathFirebaseStorige;
                         return (
-                            <div key={prod._id} className="w-40 sm:w-56 md:w-64 mx-auto">
+                            <div key={prod._id} className="w-80 sm:w-64 md:w-64 mx-auto">
                                 <div className="flex flex-col w-full">
                                     <NavLink to={"/myshop/products/" + prod._id}>
                                         {prod.image.length>0 &&
-                                        <div className="w-40 h-60 sm:w-56 sm:h-80 md:w-64 md:h-96 ">
+                                        <div className="w-80 h-[28rem] sm:w-64 sm:h-[22rem] md:w-64 md:h-[22rem] ">
                                             <img className="inline-block rounded-t-md h-auto border-2 shadow-inner" src={`${firebaseStorigeUrl}${prod.image[0].name}?alt=media&token=${prod.image[0].token}`} alt="" key={`activeProductImage_${prod.image[0].name}`} />
                                         </div>
                                         }
@@ -81,7 +79,7 @@ const ProductList = ({ title, list }) => {
                                         <div className="block text-xs lg:text-sm font-medium text-pink-950 text-center">{`by ${prod.nameShop}`}</div>
                                         <div className="block text-xs lg:text-sm font-light text-slate-500 text-center">{prod.country}</div>
                                         {/*<div className="block text-sm lg:text-base font-medium text-slate-700 text-center">{prod.price} USD</div>*/}
-                                        <PriceAndDelivery price={prod.price} shipping={prod.shipping}/>
+                                        <PriceAndDelivery price={prod.price} shipping={prod.shipping} product_id={prod._id} quantity={prod.quantity}/>
                                         <div className="flex flex-row flex-nowrap justify-between content-center">
                                             <TimeAgo timeX={prod.createdAt}/>
                                             <EyeView viewed={prod.viewed}/>

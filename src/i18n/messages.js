@@ -92,6 +92,7 @@ export const messages = {
         //products
         my_works: `My works`,
         shipping: `Shipping`,
+        shipping_short: `Shipping`,
         order_info: `Ordering Information`,
         ret_ref_policy: `Return and Refund Policy`,
         payment_options: `Payment Options`,
@@ -103,9 +104,21 @@ export const messages = {
         minute_ago_5: `minutes ago`,
         //
         comments: `Comments`,
+        your_comment: `Your comment`,
         description: `Description`,
         price: `Price`,
-        adding_a_new_product: `Adding a new product`
+        adding_a_new_product: `Adding a new product`,
+        this_item_is_already_in_your_shopping_cart: `This item is already in your shopping cart`,
+        shopping_basket: `Shopping Basket`,
+        shopping_cart_is_empty:`Shopping cart is empty`,
+        quantity:`Quantity`,
+        sales: `Sales`,
+        total: `Total`,
+        sorry_but_already_sold: `Sorry, but already sold..`,
+        make_purchase: `Make a purchase`,
+        comment_text_must_not_be_empty: `Comment text must not be empty`,
+        submit_comment: `Submit Comment`,
+        required: 'Required!'
     },
     [LOCALES.RUSSIAN]: {
         accept: `Принять`,
@@ -197,6 +210,7 @@ export const messages = {
         //products
         my_works: `Мои работы`,
         shipping: `Стоимость доставки`,
+        shipping_short:`Доставка`,
         order_info: `Информация по заказу`,
         ret_ref_policy: `Политика возврата и возмещения`,
         payment_options: `Способы оплаты`,
@@ -208,8 +222,20 @@ export const messages = {
         minute_ago_5: `минут назад`,
         //
         comments: `Комментарии`,
+        your_comment: `Ваш коментарий`,
         description: `Описание`,
         price: `Цена`,
-        adding_a_new_product: `Добавление нового товара`
+        adding_a_new_product: `Добавление нового товара`,
+        this_item_is_already_in_your_shopping_cart: `Этот товар уже есть в вашей корзине покупок`,
+        shopping_basket: `Корзина покупок`,
+        shopping_cart_is_empty:`Корзина покупок пуста`,
+        quantity:`Количество`,
+        sales: `Продано`,
+        total: `Итого`,
+        sorry_but_already_sold: `Сожалеем, но уже продано...`,
+        make_purchase: `Оформить покупку`,
+        comment_text_must_not_be_empty: `Текст комментария не должен быть пустым`,
+        submit_comment: `Отправить комментарий`,
+        required: 'Обязательно заполните!'
     }
 }

@@ -4,7 +4,7 @@ export function validator(data, config) {
     function validate(validateMethod, data, config) {
         if (!data) {
             // console.log(validateMethod, config, data);
-            return;
+            // return;
         }
         // Поменял switch на if - eslint ругается на неправильное кол-во пробелов, пока не смог его правильно считать пробелы для switch
         let statusValidate;
@@ -35,6 +35,7 @@ export function validator(data, config) {
             const linkRegExp = /([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}/g;
             statusValidate = data ? !linkRegExp.test(data) : false;
         }
+        // console.log(statusValidate,config.message)
         if (statusValidate) return config.message;
     }
 

@@ -46,7 +46,7 @@ const NavBarDropdown = ({ shop }) => {
                         leaveTo='transform opacity-0 scale-95'
                     >
                         <Menu.Items className='origin-top-right absolute right-0 top-8 mt-2 w-56 rounded-md shadow-lg bg-slate-200/80 ring-1 ring-black ring-opacity-5 focus:outline-none'>
-                            <div>
+                            <div className={"flex flex-col"}>
                                 <StyledNavLink show="pl-4" to='/personalArea'><FormattedMessage id='personal_data' /></StyledNavLink>
                                 {shop &&
                                     <>

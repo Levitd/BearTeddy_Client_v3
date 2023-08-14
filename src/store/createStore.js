@@ -8,6 +8,8 @@ import shopReducer from "./shops";
 import statisticsReducer from "./statistics";
 import usersReducer from "./users";
 import viewedReducer from "./viewed";
+import shopCardReducer from "./shopingCard";
+import commentReducer from "./comment";
 
 // import postsReducer from "./postsSlice";
 
@@ -23,7 +25,9 @@ const rootReducer = combineReducers({
     autorsProducts: autorProductsReducer,
     activeProduct: activeProductsReducer,
     activeAutor: activeAutorReducer,
-    statistics: statisticsReducer
+    statistics: statisticsReducer,
+    shoppingCard: shopCardReducer,
+    comment: commentReducer
 });
 
 export function createStore() {

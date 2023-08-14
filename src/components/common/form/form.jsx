@@ -12,7 +12,6 @@ const FormComponent = ({
     const [data, setData] = useState(defaultData || {});
     const [errors, setErrors] = useState({});
     const handleChange = useCallback((target) => {
-        // console.log(target);
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
@@ -34,10 +33,11 @@ const FormComponent = ({
         onSubmit(data);
     };
     useEffect(() => {
-        if (Object.keys(data).length > 0) {
+        // if (Object.keys(data).length > 0) {
+        console.log(data)
             validate(data);
             recalculation(data, setData);
-        }
+        // }
     }, [data, validate, recalculation]);
     const handleCancel = (e) => {
         e.preventDefault();
@@ -126,6 +126,7 @@ const FormComponent = ({
                 const cloneButtonElement = React.Children.map(child.props.children, (butChild, idx) => {
                     // console.log(butChild.props);
                     if (butChild.props.name === "submit") {
+                        console.log('disabled',!isValid)
                         configBut = { ...butChild.props, disabled: !isValid, key: "s_" + idx + 1 };
                     } else if (butChild.props.name === "cancel") {
                         configBut = { ...butChild.props, onClick: handleCancel, key: "c_" + idx + 1 };

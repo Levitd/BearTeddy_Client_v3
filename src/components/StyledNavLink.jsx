@@ -16,7 +16,6 @@ const StyledNavLink = ({ children, styleType = "default", className, show, ...re
     }
     const showClass = (!show) ? "" : show;
     return (
-        <div>
             <NavLink
                 className={({ isActive }) =>
                     twMerge(
@@ -30,7 +29,6 @@ const StyledNavLink = ({ children, styleType = "default", className, show, ...re
             >
                 {children}
             </NavLink>
-        </div>
     );
 };
 

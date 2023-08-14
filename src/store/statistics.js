@@ -28,9 +28,6 @@ const statisticsSlice = createSlice({
             state.dataLoaded = true;
             state.isLoading = false;
         },
-        statisticsRequestSuccess: (state) => {
-            state.dataLoaded = true;
-        },
         statisticsRequestFiled: (state, action) => {
             state.error = action.payload;
             state.isLoading = false;
@@ -38,11 +35,13 @@ const statisticsSlice = createSlice({
     }
 });
 const { reducer: statisticsReducer, actions } = statisticsSlice;
-const { statisticsRequested, statisticsCreated, statisticsReceved, statisticsRequestSuccess, statisticsRequestFiled } = actions;
+const { statisticsRequested, statisticsCreated, statisticsReceved, statisticsRequestFiled } = actions;
 
 export const updateStatistics = (payload) => async (dispatch, getState) => {
     try {
+        dispatch(statisticsRequested());
         const { content } = await StatisticsService.put(payload);
+        dispatch(statisticsReceved());
         if (!Array.isArray(content)){
             dispatch(statisticsCreated(content));
             dispatch(viewedProduct(content.product_id));

@@ -12,12 +12,13 @@ import { updateViewedProducts } from "../store/viewed";
 import MoreFromAutordList from "../components/ui/moreFromAutor";
 import SpinnerLader from "../components/SpinnerLoader";
 import AboutAutor from "../components/ui/aboutAutor";
-import Comments from "../components/ui/comments";
+import Comments from "./comments";
 import { PencilSquareIcon } from '@heroicons/react/24/solid';
 import { getLastViwed } from "../services/localStorage.service";
 import TimeAgo from "../components/timeAgo";
 import EyeView from "../components/EyeView";
 import Heart from "../components/Heart";
+import PriceAndDelivery from "../components/priceAndDelivery";
 
 const ProductPage = () => {
     const dispatch = useDispatch();
@@ -78,7 +79,10 @@ const ProductPage = () => {
                             {activeProduct.image && activeProduct.image.length > 0 &&
                                 <img className="mx-auto w-72 sm:w-56 md:w-64 rounded-md h-auto border-2 shadow-inner" src={`${configFile.imgPreviewPathFirebaseStorige}${activeProduct.image[0].name}?alt=media&token=${activeProduct.image[0].token}`} alt="" key={`activeProductImage_${activeProduct.image[0].name}`} />
                             }
-                            <div className="flex flex-row flex-nowrap justify-between content-center bg-slate-200 mt-5 p-1 pt-2">
+                            <div className={"bg-slate-200 mt-5"}>
+                                <PriceAndDelivery price={activeProduct.price} shipping={activeProduct.shipping} product_id={activeProduct._id} quantity={activeProduct.quantity}/>
+                            </div>
+                            <div className="flex flex-row flex-nowrap justify-between content-center bg-slate-200 p-1 pt-2">
                                 <TimeAgo timeX={activeProduct.createdAt}/>
                                 <EyeView viewed={activeProduct.viewed}/>
                                 <Heart heart={84} />
@@ -102,11 +106,11 @@ const ProductPage = () => {
                                 <FormattedMessage id={"payment_options"} />:
                                 <p className="pl-2">{activeProduct.payment_options}</p>
                             </div>
-                            <img
-                                src={configFile.imgPathFirebaseStorige + "order-now-orange.webp?alt=media&token=99ea2137-5ca9-4ac4-beef-49787e410b66"}
-                                className='inline-block w-20 sm:w-22 md:w-24'
-                                alt={`Click to order`}
-                            />
+                            {/*<img*/}
+                            {/*    src={configFile.imgPathFirebaseStorige + "order-now-orange.webp?alt=media&token=99ea2137-5ca9-4ac4-beef-49787e410b66"}*/}
+                            {/*    className='inline-block w-20 sm:w-22 md:w-24'*/}
+                            {/*    alt={`Click to order`}*/}
+                            {/*/>*/}
                         </div>
                         <AboutAutor title={"autor"} addStyle={" md:col-span-3 " + addStyle} />
                         <Comments title={"comments"} addStyle={" md:col-span-3 " + addStyle} />

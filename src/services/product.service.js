@@ -1,5 +1,4 @@
 import httpService from "./http.service";
-import {json} from "react-router-dom";
 // import localStorageService from "./localStorage.service";
 
 const productEndpoint = "product/";

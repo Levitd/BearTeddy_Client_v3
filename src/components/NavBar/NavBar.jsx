@@ -12,6 +12,7 @@ import BurgerMenu from "../BurgerMenu/BurgerMenu";
 // import useLogout from "../../hooks/useLogout";
 import { useLocation } from "react-router-dom";
 import configFile from "../../config.json";
+import ShoppingCard from "./ShoppingCard";
 
 const NavBar = ({ handleChange, shop, isLoggedIn }) => {
     const currentPage = useLocation().pathname;
@@ -64,14 +65,15 @@ const NavBar = ({ handleChange, shop, isLoggedIn }) => {
                 />
                 <NavBarSelectLang handleChange={handleChange} />
                 <NavBarLinkList>
+                    <ShoppingCard/>
                     <StyledNavLink to='/autors' show="hidden lg:block"><FormattedMessage id='autors' /></StyledNavLink>
-                    <button onClick={handleClickBurgerMenu} className="lg:hidden"><Bars3Icon className="h-6 w-6 text-blue-500" /></button>
                     {currentPage === "/" &&
                         <>
-                            <button onClick={handleClickSearchLine} id="searchButtoninNavBar" className="lg:hidden"><MagnifyingGlassCircleIcon className="h-6 w-6 text-blue-500" /></button>
+                            <button onClick={handleClickSearchLine} id="searchButtoninNavBar" className="lg:hidden m-0"><MagnifyingGlassCircleIcon className="h-6 w-6 text-blue-500" /></button>
                             <button onClick={handleClickFiltersLine} id="filtersButtoninNavBar" className="lg:hidden"><AdjustmentsHorizontalIcon className="h-6 w-6 text-blue-500" /></button>
                         </>
                     }
+                    <button onClick={handleClickBurgerMenu} className="lg:hidden"><Bars3Icon className="h-6 w-6 text-blue-500" /></button>
 
                     {isLoggedIn ? (
                         <>

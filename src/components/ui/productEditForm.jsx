@@ -154,6 +154,11 @@ const ProductEditForm = ({ path, currentUser, param, productId, activeProduct })
                             type={"number"}
                         />
                         <TextField
+                            label={<FormattedMessage id='quantity' />}
+                            name="quantity"
+                            type={"number"}
+                        />
+                        <TextField
                             label={<FormattedMessage id='country' />}
                             name="country"
                         />

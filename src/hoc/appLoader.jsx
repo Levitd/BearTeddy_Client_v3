@@ -5,9 +5,9 @@ import PropTypes from "prop-types";
 import localStorageService from "../services/localStorage.service";
 import { loadShops } from "../store/shops";
 import { getProductIsLoading, loadProducts } from "../store/products";
-import { loadViewedProductsByIdUser } from "../store/viewed";
 import SpinnerLader from "../components/SpinnerLoader";
 import { loadAutorProducts } from "../store/autorProducts";
+import {loadShopCard} from "../store/shopingCard";
 
 
 const AppLoader = ({ children }) => {
@@ -23,7 +23,7 @@ const AppLoader = ({ children }) => {
             const userId = localStorageService.getUserId();
             dispatch(loadUserById(userId));
             dispatch(loadShops(userId));
-            // dispatch(loadViewedProductsByIdUser(userId));
+            dispatch(loadShopCard(userId));
             dispatch(loadAutorProducts(userId));
         } else {
             dispatch(loadShops());

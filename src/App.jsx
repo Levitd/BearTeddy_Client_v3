@@ -27,6 +27,7 @@ import ProductEdit from "./layout/productEdit";
 // import { getAutorsProductList } from "./store/autorProducts";
 // import { getProductList } from "./store/products";
 import ProductNew from "./layout/productNew";
+import Basket from "./layout/basket";
 
 
 
@@ -55,6 +56,7 @@ function App() {
                     <div className={"bg-slate-700"}>
                     <Routes>
                         <Route path="/" element={<MainPage locale={currentLocale} />} />
+                        <Route path="basket" element={<Basket />} />
                         <Route path="autors" element={<AutorsPage />} />
                         <Route path="myshop">
                             <Route index element={!isLoggedIn ? <Navigate to="/auth/login" state={{ referrer: location }} /> : shop ? <MyShopPage shop={shop} /> : <Navigate to="/create_myshop" state={{ referrer: location }} />} />
