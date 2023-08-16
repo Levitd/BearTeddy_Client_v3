@@ -96,7 +96,7 @@ export const logIn = ({ payload, redirect }) => async (dispatch) => {
     try {
         const data = await authService.login({ email, password });
         dispatch(loadShops(data.localId));
-        dispatch(authRequestSuccess({ userId: data.localId ,email:email}));
+        dispatch(authRequestSuccess({ userId: data.localId, email: email }));
         localStorageService.setTokens(data);
         history.push(redirect);
         // history.push("/");
@@ -214,6 +214,6 @@ export const getUsersLoadingStatus = () => state => state.users.isLoading;
 export const getCurrentUserId = () => state => state.users.auth?.userId;
 export const getCurrentUserEmail = () => state => state.users.auth?.email;
 export const getAuthErrors = () => (state) => state.users.error;
-export const getShopUser = () => (state) => state.users.error;
-
+// export const getShopUser = () => (state) => state.users.error;
+export const getCurrentUser = () => (state) => state.users.entities;
 export default usersReducer;
