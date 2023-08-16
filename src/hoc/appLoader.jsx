@@ -7,7 +7,8 @@ import { loadShops } from "../store/shops";
 import { getProductIsLoading, loadProducts } from "../store/products";
 import SpinnerLader from "../components/SpinnerLoader";
 import { loadAutorProducts } from "../store/autorProducts";
-import {loadShopCard} from "../store/shopingCard";
+import { loadShopCard } from "../store/shopingCard";
+import getGlobalFilter from "../utils/globalFilterProducts";
 
 
 const AppLoader = ({ children }) => {
@@ -17,7 +18,8 @@ const AppLoader = ({ children }) => {
     const userStatusLoading = useSelector(getUsersLoadingStatus());
     const isLoadingProducts = useSelector(getProductIsLoading());
 
-    if (!isLoadingProducts) dispatch(loadProducts());
+    const globalFilterProducts = getGlobalFilter();
+    if (!isLoadingProducts) dispatch(loadProducts(globalFilterProducts));
     useEffect(() => {
         if (isLoggedIn) {
             const userId = localStorageService.getUserId();

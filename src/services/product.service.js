@@ -22,11 +22,16 @@ const ProductService = {
     },
     getArray: async (array) => {
         const newArray = JSON.stringify(array)
-        const { data } = await httpService.get(productEndpoint+'array?array='+newArray);
+        const { data } = await httpService.get(productEndpoint + 'array?array=' + newArray);
         return data;
     },
-    getProducts: async (_id) => {
-        const { data } = await httpService.get(productEndpoint );
+    getProducts: async () => {
+        const { data } = await httpService.get(productEndpoint);
+        return data;
+    },
+    getProductsFilter: async (payload) => {
+        console.log(payload);
+        const { data } = await httpService.get(productEndpoint, { params: payload });
         return data;
     },
     getProductsById: async (_id) => {

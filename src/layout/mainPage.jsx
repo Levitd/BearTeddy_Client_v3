@@ -48,13 +48,13 @@ const MainPage = ({ locale }) => {
                             <InputSearch name="search" placeholder={placeholder} />
                             <div className="filters pe-2 py-2 hidden lg:flex flex-col lg:flex-row w-11/12 lg:w-full mx-auto justify-around flex-wrap sm:flex-nowrap flex-auto gap-2 place-content-stretch">
                                 <div className={filterStyle}>
-                                    <ListBoxFilter list={listBay} locale={locale} />
+                                    <ListBoxFilter name="listBay" list={listBay} locale={locale} />
                                 </div>
                                 <div className={filterStyle}>
-                                    <ListBoxFilter list={listSize} locale={locale} />
+                                    <ListBoxFilter name="listSize" list={listSize} locale={locale} />
                                 </div>
                                 <div className={filterStyle}>
-                                    <ListBoxFilter list={listPrice} locale={locale} />
+                                    <ListBoxFilter name="listPrice" list={listPrice} locale={locale} />
                                 </div>
                             </div>
                         </div>

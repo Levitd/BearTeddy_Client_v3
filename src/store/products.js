@@ -53,12 +53,12 @@ const productsSlice = createSlice({
         productUpdatedFailed: (state, action) => {
             state.error = action.payload;
         },
-        productViewed:(state, action)=> {
-            state.entities=state.entities.map((s)=>{
-                if (s._id===action.payload){
-                    return {...s, viewed: !('viewed' in s) ? 1: s.viewed+1};
+        productViewed: (state, action) => {
+            state.entities = state.entities.map((s) => {
+                if (s._id === action.payload) {
+                    return { ...s, viewed: !('viewed' in s) ? 1 : s.viewed + 1 };
                 } else {
-                    return {...s};
+                    return { ...s };
                 }
             })
         }
@@ -103,11 +103,11 @@ export const updateProduct = (payload, nameFile) => async (dispatch, getState) =
     }
 };
 
-export const loadProducts = () => async (dispatch, getState) => {
+export const loadProducts = (filter) => async (dispatch, getState) => {
     if (!dispatch(getProductLoading())) {
         dispatch(productRequested());
         try {
-            const { content } = await ProductService.getProducts();
+            const { content } = await ProductService.getProductsFilter(filter);
             const orderContent = orderBy(content, "create", ['desc']);
             dispatch(productReceved(orderContent));
         } catch (error) {
@@ -115,7 +115,7 @@ export const loadProducts = () => async (dispatch, getState) => {
         }
     }
 };
-export const viewedProduct = (_id) => async (dispatch)=>{
+export const viewedProduct = (_id) => async (dispatch) => {
     dispatch(productViewed(_id));
 }
 // export const loadProductById = (id) => async (dispatch, getState) => {

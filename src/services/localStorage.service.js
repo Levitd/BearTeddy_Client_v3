@@ -46,7 +46,7 @@ export function setViewedProducts(product) {
         } else if (viewedProducts.length === 14) {
             viewedProducts.splice(9, 1);
         }
-        viewedProducts.unshift({ product_id:product._id, time_viewed: Date.now() });
+        viewedProducts.unshift({ product_id: product._id, time_viewed: Date.now() });
         localStorage.setItem("viewed", JSON.stringify(viewedProducts));
         return viewedProducts;
     }
@@ -79,13 +79,13 @@ export const uploadImageActiveProductEnd = () => {
     localStorage.setItem("uploadToFitebaseStart", JSON.stringify(false));
     localStorage.setItem("uploadToFitebaseEnd", JSON.stringify(true));
 }
-export function removeRefreshToken(){
+export function removeRefreshToken() {
     localStorage.removeItem(REFRESH_KEY);
 }
-export function setLoadingRefreshToken(state){
+export function setLoadingRefreshToken(state) {
     localStorage.setItem("loadingRefreshToken", JSON.stringify(state));
 }
-export function getLoadingRefreshToken(e){
+export function getLoadingRefreshToken(e) {
     return JSON.parse(localStorage.getItem("loadingRefreshToken"));
 }
 export function removeAuthData() {
@@ -95,6 +95,15 @@ export function removeAuthData() {
     localStorage.removeItem(EXPIRES_KEY);
     localStorage.removeItem(USER_SHOP);
     // localStorage.removeItem("viewed");
+}
+
+function setGlobalFilter(nameFilter, dataFilter) {
+    let filter = getGlobalFilter() || {};
+    filter[nameFilter] = dataFilter;
+    localStorage.setItem("globalFilter", JSON.stringify(filter));
+}
+function getGlobalFilter() {
+    return JSON.parse(localStorage.getItem("globalFilter"));
 }
 
 const localStorageService = {
@@ -107,7 +116,9 @@ const localStorageService = {
     setUserShop,
     getUserShop,
     setViewedProducts,
-    setViewedProductsFromServer
+    setViewedProductsFromServer,
+    setGlobalFilter,
+    getGlobalFilter
 };
 
 export default localStorageService;
