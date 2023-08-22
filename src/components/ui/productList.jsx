@@ -15,7 +15,7 @@ import EyeView from "../EyeView";
 import Heart from "../Heart";
 import PriceAndDelivery from "../priceAndDelivery";
 // 
-const ProductList = ({ title, list }) => {
+const ProductList = ({ title, list, noTranslate=false }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const isLoggedIn = useSelector(getIsLoggedIn());
@@ -41,7 +41,7 @@ const ProductList = ({ title, list }) => {
         }
         setIsLoadingProductAutor(loadingProductAutor);
         setloadedData(loadData);
-    }, [isLoggedIn, dispatch, loadData, loadedData,  products_list]);
+    }, [isLoggedIn, dispatch, loadData, loadedData,  products_list, title]);
 
     const products_ = (list === "autor") ? products_autor : products_list;
     // console.log(list, products_)
@@ -51,7 +51,7 @@ const ProductList = ({ title, list }) => {
             return { ...p_, nameShop: shops.find((s) => s.user_id === p_.user_id)?.name || "???" };
         });
         return (
-            <Page title={title} widthScreen="flex flex-row flex-wrap gap-5 mt-2 mb-20 lg:mb-2">
+            <Page title={title} noTranslate={noTranslate} widthScreen="flex flex-row flex-wrap gap-5 mt-2 mb-20 lg:mb-2">
                 {(list === "autor") &&
                     <div key={"add_prod"} className="w-40 sm:w-56 md:w-64 mx-auto  rounded-b-md border-2 shadow-inner">
                         <img className="inline-block h-auto" src="https://firebasestorage.googleapis.com/v0/b/bearteddy-263cb.appspot.com/o/img%2Fprofile%2F3d-animal-png.png?alt=media&token=be289e29-e59a-4a19-9555-35bd00be925e" alt="" key={`newProduct`} />

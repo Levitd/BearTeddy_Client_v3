@@ -3,8 +3,12 @@ import { Fragment, useState } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import localStorageService from "../services/localStorage.service";
+import {loadProducts} from "../store/products";
+import {useDispatch} from "react-redux";
+import getGlobalFilter from "../utils/globalFilterProducts";
 
 const ListBoxFilter = ({ name, list, locale }) => {
+    const dispatch = useDispatch();
     const settingFilters = localStorageService.getGlobalFilter();
     const defauSelect = (settingFilters && name in settingFilters ? Number(settingFilters[name]) - 1 : 0);
     const [selectedList, setSelectedList] = useState(list[defauSelect]);
@@ -16,10 +20,10 @@ const ListBoxFilter = ({ name, list, locale }) => {
     //     });
     // }, [locale, list]);
     const handleChange = (e) => {
-        console.log("handleChange", e);
         setSelectedList((prevSelect) => {
             const newSelect = list[e.id - 1];
             localStorageService.setGlobalFilter(name, newSelect.id);
+            dispatch(loadProducts(getGlobalFilter()));
             return newSelect;
         });
     };

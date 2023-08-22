@@ -1,5 +1,8 @@
 // import { useIntl } from "react-intl";
 
+import listFilter from "../mockData/listFilter";
+import localStorageService from "../services/localStorage.service";
+
 export function getStorage(el) {
     return JSON.parse(localStorage.getItem(el));
 };
@@ -108,3 +111,17 @@ function letterYear(age) {
         return "of_the_year";
     }
 };
+
+export function titleProductPage(){
+    const globalFilter = localStorageService.getGlobalFilter()
+    if (!globalFilter){
+        return "the_newest";
+    } else {
+        const {listBay,listSize,listPrice} = listFilter();
+        if ("listBay" in globalFilter){
+            return listBay[globalFilter.listBay-1].name;
+        } else {
+            return listBay[0].name;
+        }
+    }
+}

@@ -875,10 +875,6 @@ select {
   left: 0px;
 }
 
-.left-14 {
-  left: 3.5rem;
-}
-
 .left-3 {
   left: 0.75rem;
 }
@@ -911,16 +907,16 @@ select {
   top: 2rem;
 }
 
+.z-10 {
+  z-index: 10;
+}
+
 .z-40 {
   z-index: 40;
 }
 
 .z-50 {
   z-index: 50;
-}
-
-.z-10 {
-  z-index: 10;
 }
 
 .col-span-1 {
@@ -1012,6 +1008,10 @@ select {
 
 .mb-4 {
   margin-bottom: 1rem;
+}
+
+.mb-5 {
+  margin-bottom: 1.25rem;
 }
 
 .ml-2 {
@@ -1222,6 +1222,27 @@ select {
   max-width: 28rem;
 }
 
+.max-w-min {
+  max-width: -webkit-min-content;
+  max-width: min-content;
+}
+
+.max-w-xl {
+  max-width: 36rem;
+}
+
+.max-w-\[330px\] {
+  max-width: 330px;
+}
+
+.max-w-\[350px\] {
+  max-width: 350px;
+}
+
+.max-w-none {
+  max-width: none;
+}
+
 .flex-auto {
   flex: 1 1 auto;
 }
@@ -1296,6 +1317,10 @@ select {
 
 .grid-cols-10 {
   grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .grid-cols-5 {
@@ -1400,6 +1425,10 @@ select {
   place-self: center;
 }
 
+.self-center {
+  align-self: center;
+}
+
 .overflow-auto {
   overflow: auto;
 }
@@ -1443,6 +1472,11 @@ select {
   border-bottom-left-radius: 0.375rem;
 }
 
+.rounded-e-md {
+  border-start-end-radius: 0.375rem;
+  border-end-end-radius: 0.375rem;
+}
+
 .rounded-l-md {
   border-top-left-radius: 0.375rem;
   border-bottom-left-radius: 0.375rem;
@@ -1453,9 +1487,19 @@ select {
   border-bottom-right-radius: 0.375rem;
 }
 
+.rounded-s-md {
+  border-start-start-radius: 0.375rem;
+  border-end-start-radius: 0.375rem;
+}
+
 .rounded-t-md {
   border-top-left-radius: 0.375rem;
   border-top-right-radius: 0.375rem;
+}
+
+.rounded-e-full {
+  border-start-end-radius: 9999px;
+  border-end-end-radius: 9999px;
 }
 
 .border {
@@ -1695,6 +1739,11 @@ select {
 .ps-10 {
   -webkit-padding-start: 2.5rem;
           padding-inline-start: 2.5rem;
+}
+
+.ps-2 {
+  -webkit-padding-start: 0.5rem;
+          padding-inline-start: 0.5rem;
 }
 
 .pt-1 {

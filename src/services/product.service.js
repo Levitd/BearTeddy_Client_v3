@@ -30,7 +30,6 @@ const ProductService = {
         return data;
     },
     getProductsFilter: async (payload) => {
-        console.log(payload);
         const { data } = await httpService.get(productEndpoint, { params: payload });
         return data;
     },

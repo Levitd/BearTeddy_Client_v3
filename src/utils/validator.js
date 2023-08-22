@@ -12,7 +12,7 @@ export function validator(data, config) {
             if (typeof data === "boolean") {
                 statusValidate = !data;
             } else {
-                statusValidate = data.trim() === "";
+                statusValidate = data && data.trim() === "";
             }
         } else if (validateMethod === "isEmail") {
             const emailRegExp = /^\S+@\S+\.\S+$/g;

@@ -19,6 +19,8 @@ const initialState = (localStorageService.getAccessToken())
         isloggedIn: true,
         dataLoaded: false,
         createShop: "",
+        shopAutors: null,
+        isLoadingAutors: false
     }
     : {
         entities: null,
@@ -28,6 +30,8 @@ const initialState = (localStorageService.getAccessToken())
         isloggedIn: false,
         dataLoaded: false,
         createShop: false,
+        shopAutors: null,
+        isLoadingAutors: false
     };
 
 const usersSlice = createSlice({
@@ -37,10 +41,18 @@ const usersSlice = createSlice({
         usersRequested: (state) => {
             state.isLoading = true;
         },
+        usersAutorsRequested: (state) => {
+            state.isLoadingAutors = true;
+        },
         usersReceved: (state, action) => {
             state.entities = action.payload;
             state.dataLoaded = true;
             state.isLoading = false;
+        },
+        usersAutorsReceved: (state, action) => {
+            state.shopAutors = action.payload;
+            state.dataLoaded = true;
+            state.isLoadingAutors = false;
         },
         usersRequestFiled: (state, action) => {
             state.error = action.payload;
@@ -84,7 +96,7 @@ const usersSlice = createSlice({
 });
 
 const { reducer: usersReducer, actions } = usersSlice;
-const { usersRequested, usersReceved, usersRequestFiled, authRequestSuccess, authRequestFailed, userCreated, userUpdated, userUpdatedFailed, userLogOut } = actions;
+const { usersAutorsRequested, usersAutorsReceved, usersRequested, usersReceved, usersRequestFiled, authRequestSuccess, authRequestFailed, userCreated, userUpdated, userUpdatedFailed, userLogOut } = actions;
 
 const authRequested = createAction("users/authRequested");
 const userCreateRequested = createAction("users/userCreateRequested");
@@ -195,6 +207,15 @@ export const loadUserById = (id) => async (dispatch, getState) => {
         dispatch(usersRequestFiled(error.message));
     }
 };
+export const loadUsersAutorByArray = (array) => async (dispatch, getState) => {
+    dispatch(usersAutorsRequested());
+    try {
+        const { content } = await UserService.postArray(array);
+        dispatch(usersAutorsReceved(content));
+    } catch (error) {
+        dispatch(usersRequestFiled(error.message));
+    }
+};
 export const getUserById = (userId) => state => {
     if (state.users.entities) {
         return state.users.entities.find(u => u._id === userId);
@@ -216,4 +237,6 @@ export const getCurrentUserEmail = () => state => state.users.auth?.email;
 export const getAuthErrors = () => (state) => state.users.error;
 // export const getShopUser = () => (state) => state.users.error;
 export const getCurrentUser = () => (state) => state.users.entities;
+export const getUsersAutrors = () => (state) => state.users.shopAutors;
+export const getAutorsLoadingStatus = () => state => state.users.isLoadingAutors;
 export default usersReducer;

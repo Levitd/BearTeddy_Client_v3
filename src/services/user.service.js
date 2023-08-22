@@ -33,7 +33,7 @@ const UserService = {
             }
         });
         return data;
-    },
+    }
 };
 
 export default UserService;

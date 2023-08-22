@@ -1,5 +1,5 @@
 import React from "react";
-import {CurrencyDollarIcon, ShoppingCartIcon, RocketLaunchIcon} from "@heroicons/react/24/solid";
+import {ShoppingCartIcon, RocketLaunchIcon} from "@heroicons/react/24/solid"; // CurrencyDollarIcon
 import {useDispatch, useSelector} from "react-redux";
 import {addProductInShoppingCard, getShopCard} from "../store/shopingCard";
 import {getUserId} from "../services/localStorage.service";
@@ -7,7 +7,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 import {FormattedNumber, useIntl} from "react-intl"; // MaximumFractionDigits={0}
 import Message from "./message";
-const PriceAndDelivery = ({price, shipping, product_id,quantity }) => {
+const PriceAndDelivery = ({price, shipping, product_id,quantity=0 }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
@@ -38,22 +38,19 @@ const PriceAndDelivery = ({price, shipping, product_id,quantity }) => {
     }
     return (
         <div className="block p-1 text-sm lg:text-base font-medium text-slate-700 text-center flex flex-row justify-around">
-            {quantity &&
+            {Number(quantity)!==0 &&
                 <>
                 <button data-product_id={product_id} onClick={handleClickBuy} className={"hover:scale-125 transition-transform duration-300"}><ShoppingCartIcon className="h-10 w-10 text-red-300 hover:text-red-800 pb-2" /></button>
                 <p className={"text-lg font-semibold text-zinc-800 flex flex-row"}>
                     <FormattedNumber value={price} style={`currency`} currency='USD' />
-                    {/*{price}*/}
-                    {/*<CurrencyDollarIcon className="h-10 w-10 text-red-300 hover:text-red-800 pb-2" />*/}
                 </p>
                 <p className={"text-lg font-semibold text-zinc-800 flex flex-row"}>
                     <FormattedNumber value={shipping} style={`currency`} currency='USD'  />
                     <RocketLaunchIcon className="h-10 w-10 text-red-300 hover:text-red-800 pb-2" />
-                    {/*{shipping}<RocketLaunchIcon className="h-10 w-10 text-red-300 hover:text-red-800 pb-2" />*/}
                 </p>
                 </>
             }
-            {!quantity &&
+            {Number(quantity)===0 &&
             <>
             <Message message={'sales'} color={"red"}/>
             </>

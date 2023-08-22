@@ -68,13 +68,13 @@ const ProductPage = () => {
 
                 <Page title={activeProduct.name} noTranslate={true} backArrow={true} widthScreen="flex flex-row flex-wrap gap-5 mb-20 lg:mb-2">
                     <div className="grid grid-row gap-5 grid-cols-1 md:grid-cols-3 xl:grid-cols-6">
-                        <div className={"relative"}>
+                        <div className={"relative "}>
                             {isLoggedIn && currentUser === activeProduct.user_id &&
-                                <div className="relative">
+                                // <div className="relative">
                                     <NavLink to={"/myshop/products/" + activeProduct._id + "/edit"}>
-                                        <PencilSquareIcon className="h-12 w-12 text-slate-600 hover:text-slate-900 p-2 absolute cursor-pointer hover:scale-150 transition-transform duration-300  left-14 lg:left-3 top-3" />
+                                        <PencilSquareIcon className="h-12 w-12 text-slate-600 hover:text-slate-900 p-2 absolute cursor-pointer hover:scale-150 transition-transform duration-300  left-3 lg:left-3 top-3" />
                                     </NavLink>
-                                </div>
+                                // </div>
                             }
                             {activeProduct.image && activeProduct.image.length > 0 &&
                                 <img className="mx-auto w-72 sm:w-56 md:w-64 rounded-md h-auto border-2 shadow-inner" src={`${configFile.imgPreviewPathFirebaseStorige}${activeProduct.image[0].name}?alt=media&token=${activeProduct.image[0].token}`} alt="" key={`activeProductImage_${activeProduct.image[0].name}`} />

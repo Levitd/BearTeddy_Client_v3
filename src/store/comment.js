@@ -19,6 +19,7 @@ const commentSlice = createSlice({
         commentRequested: (state) => {
             state.isLoading = true;
             state.dataLoaded = false;
+            state.usersComment = null;
         },
         commentReceved: (state, action) => {
             state.entities.push(action.payload);

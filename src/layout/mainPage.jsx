@@ -6,38 +6,16 @@ import Page from "../components/page";
 import InputSearch from "../components/inputSearch";
 import ProductList from "../components/ui/productList";
 import ViewedList from "../components/ui/viewedList";
+import listFilter from "../mockData/listFilter";
+import {titleProductPage} from "../utils/util";
 
 const MainPage = ({ locale }) => {
-    const intl = useIntl()
-    // console.log(intl.messages.search)
+    const intl = useIntl();
     const placeholder = intl.messages.search;
 
-    // const handleClickFilters = () => {
-    //     console.log("handleClickFilters");
-    //     const filtersEl = document.querySelector(".filters");
-    //     filtersEl.classList.toggle("filters_show");
-    // };
-    const listBay = [
-        { id: 1, name: intl.messages.the_newest },
-        { id: 2, name: intl.messages.favorite },
-        { id: 3, name: "Еще не проданные" },
-        { id: 4, name: "Нашедшие свой дом" },
-        { id: 5, name: "Ищут новый дом" },
-    ];
-    const listSize = [
-        { id: 1, name: intl.messages.all_sizes },
-        { id: 2, name: "до 14 см" },
-        { id: 3, name: "от 14 см до 20 см" },
-        { id: 4, name: "от 20 см до 35 см" },
-        { id: 5, name: "от 35 см и выше" },
-    ];
-    const listPrice = [
-        { id: 1, name: intl.messages.any_price },
-        { id: 2, name: "до 100$" },
-        { id: 3, name: "от 100$ до 250$" },
-        { id: 4, name: "от 250$ до 500$" },
-        { id: 5, name: "от 500$ и выше" },
-    ];
+    const {listBay,listSize,listPrice} = listFilter();
+    const titlePage= titleProductPage();
+
     const filterStyle = "w-full lg:max-w-xs";
     return (
         <>
@@ -60,7 +38,7 @@ const MainPage = ({ locale }) => {
                         </div>
                     </div>
                 </Page>
-                <ProductList list="all" title={"the_newest"} />
+                <ProductList list="all" title={titlePage} noTranslate={true} />
                 <ViewedList title={"recently_viewed"} />
             </div>
         </>
