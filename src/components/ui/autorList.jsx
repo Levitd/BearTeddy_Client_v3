@@ -29,7 +29,7 @@ const AutorsList = ({ title, addStyle }) => {
         <div className={"flex flex-row flex-wrap gap-5 "}>
             {
                 autorsShops.map((autorShop)=>{
-                    console.log(autorShop)
+                    // console.log(autorShop)
                     {
                         return <Autor data={autorShop}/>
                     }

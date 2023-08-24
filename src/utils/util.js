@@ -117,7 +117,7 @@ export function titleProductPage(){
     if (!globalFilter){
         return "the_newest";
     } else {
-        const {listBay,listSize,listPrice} = listFilter();
+        const {listBay} = listFilter();
         if ("listBay" in globalFilter){
             return listBay[globalFilter.listBay-1].name;
         } else {

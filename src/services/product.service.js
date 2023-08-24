@@ -12,6 +12,12 @@ const ProductService = {
         const { data } = await httpService.post(productEndpoint, payload);
         return data;
     },
+    createLike: async (payload) => {
+        const { data } = await httpService.post(productEndpoint,  {
+            like: payload
+        });
+        return data;
+    },
     // getCurrentUser: async () => {
     //     const { data } = await httpService.get(userEndpoint + localStorageService.getUserId());
     //     return data;

@@ -4,6 +4,7 @@ import { generateAuthError } from "../utils/generateAuthError";
 import { orderBy } from "lodash";
 import { DeleteFileInFireBaseStorage } from "../utils/filesToFromFirebaseStorage";
 import { addedAutorProduct } from "./autorProducts";
+import {updateActiveProduct} from "./activeProduct";
 
 const initialState = {
     entities: null,
@@ -61,15 +62,44 @@ const productsSlice = createSlice({
                     return { ...s };
                 }
             })
+        },
+        likeReceved: (state, action) => {
+            state.entities = state.entities.map((st)=>{
+                if (st._id===action.payload._id){
+                    return action.payload;
+                } else {
+                    return st;
+                }
+            });
+            state.dataLoaded = true;
+            state.isLoading = false;
+        },
+        setAutProducts: (state, action) => {
+            state.entities=action.payload;
         }
     }
 });
 const { reducer: productReducer, actions } = productsSlice;
-const { productViewed, productRequested, productCreated, productReceved, productRequestFiled, productLogOut, productUpdated, productUpdatedFailed, productRequestSuccess } = actions;
+const { setAutProducts, likeReceved, productViewed, productRequested, productCreated, productReceved, productRequestFiled, productLogOut, productUpdated, productUpdatedFailed, productRequestSuccess } = actions;
 
 // const productCreateRequested = createAction("products/productCreateRequested");
 // const createproductFailed = createAction("products/createproductFailed");
 
+export const createLike =(payload) => async (dispatch) =>{
+    dispatch(productRequested());
+    try {
+        const { content } = await ProductService.createLike(payload);
+        dispatch(likeReceved(content));
+    } catch (error) {
+        const { code, message } = error.response.data.error;
+        if (code === 400) {
+            const errorMessage = generateAuthError(message);
+            dispatch(productRequestFiled(errorMessage));
+        } else {
+            dispatch(productRequestFiled(error.message));
+        }
+    }
+}
 export const createProduct = (payload, redirect) => async (dispatch) => {
     dispatch(productRequested());
     try {
@@ -79,6 +109,7 @@ export const createProduct = (payload, redirect) => async (dispatch) => {
             dispatch(productCreated(content));
             //еще надо вставить в массив продуктов от автора
             dispatch(addedAutorProduct())
+            dispatch(updateActiveProduct(content));
         }
     } catch (error) {
         const { code, message } = error.response.data.error;
@@ -103,6 +134,9 @@ export const updateProduct = (payload, nameFile) => async (dispatch, getState) =
     }
 };
 
+export const setAutorProducts =(autorProducts) => (dispatch)=>{
+    dispatch(setAutProducts(autorProducts))
+}
 export const loadProducts = (filter) => async (dispatch, getState) => {
     if (!dispatch(getProductLoading())) {
         dispatch(productRequested());
@@ -148,7 +182,6 @@ export const getProductErrors = () => (state) => state.products.error;
 export const getProductLoading = () => (state, dispatch) => dispatch(state).products.isLoading;
 export const getProductIsLoading = () => (state, dispatch) => state.products.dataLoaded;
 export const getProductList = () => (state, dispatch) => state.products.entities;
-
 // export const getActiveProductLoading = () => (state, dispatch) => dispatch(state).products.isLoadingActiveProduct;
 // export const getUserActiveProduct = () => (state, dispatch) => dispatch(state).products.activeProduct.user_id;
 export default productReducer;

@@ -85,7 +85,7 @@ const ProductPage = () => {
                             <div className="flex flex-row flex-nowrap justify-between content-center bg-slate-200 p-1 pt-2">
                                 <TimeAgo timeX={activeProduct.createdAt}/>
                                 <EyeView viewed={activeProduct.viewed}/>
-                                <Heart heart={84} />
+                                <Heart heart={activeProduct.liked || 0} product_id={activeProduct._id} />
                             </div>
                         </div>
                         <div className="rounded-md h-auto border-2 shadow-inner bg-white text-blue-900  text-sm lg:text-base font-normal p-2 md:col-span-2 xl:col-span-3">

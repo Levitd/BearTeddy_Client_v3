@@ -9,16 +9,17 @@ import SpinnerLader from "../components/SpinnerLoader";
 import { loadAutorProducts } from "../store/autorProducts";
 import { loadShopCard } from "../store/shopingCard";
 import getGlobalFilter from "../utils/globalFilterProducts";
+import {useLocation} from "react-router-dom";
 
 
 const AppLoader = ({ children }) => {
     const dispatch = useDispatch();
-
+    const location = useLocation();
     const isLoggedIn = useSelector(getIsLoggedIn());
     const userStatusLoading = useSelector(getUsersLoadingStatus());
     const isLoadingProducts = useSelector(getProductIsLoading());
 
-    const globalFilterProducts = getGlobalFilter();
+    const globalFilterProducts = getGlobalFilter(location.pathname);
     if (!isLoadingProducts) dispatch(loadProducts(globalFilterProducts));
     useEffect(() => {
         if (isLoggedIn) {

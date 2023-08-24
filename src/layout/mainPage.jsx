@@ -13,7 +13,8 @@ const MainPage = ({ locale }) => {
     const intl = useIntl();
     const placeholder = intl.messages.search;
 
-    const {listBay,listSize,listPrice} = listFilter();
+    // Убрал пока listSize, в товарах еще нет размеров
+    const {listBay,listPrice} = listFilter();
     const titlePage= titleProductPage();
 
     const filterStyle = "w-full lg:max-w-xs";
@@ -28,9 +29,9 @@ const MainPage = ({ locale }) => {
                                 <div className={filterStyle}>
                                     <ListBoxFilter name="listBay" list={listBay} locale={locale} />
                                 </div>
-                                <div className={filterStyle}>
-                                    <ListBoxFilter name="listSize" list={listSize} locale={locale} />
-                                </div>
+                                {/*<div className={filterStyle}>*/}
+                                {/*    <ListBoxFilter name="listSize" list={listSize} locale={locale} />*/}
+                                {/*</div>*/}
                                 <div className={filterStyle}>
                                     <ListBoxFilter name="listPrice" list={listPrice} locale={locale} />
                                 </div>

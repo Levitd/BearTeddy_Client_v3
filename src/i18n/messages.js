@@ -119,7 +119,9 @@ export const messages = {
         comment_text_must_not_be_empty: `Comment text must not be empty`,
         submit_comment: `Submit Comment`,
         required: 'Required!',
-        no_comments_be_the_first:`No comments, be the first`
+        no_comments_be_the_first:`No comments, be the first`,
+        thank_you: `Thank you!`,
+        it_s_a_pity:`Sorry, you don't like it?`
     },
     [LOCALES.RUSSIAN]: {
         accept: `Принять`,
@@ -238,6 +240,8 @@ export const messages = {
         comment_text_must_not_be_empty: `Текст комментария не должен быть пустым`,
         submit_comment: `Отправить комментарий`,
         required: 'Обязательно заполните!',
-        no_comments_be_the_first:`Комментариев нет, будьте первым`
+        no_comments_be_the_first:`Комментариев нет, будьте первым`,
+        thank_you: `Cпасибо!`,
+        it_s_a_pity:`Очень жаль, Вам уже не нравится?`
     }
 }

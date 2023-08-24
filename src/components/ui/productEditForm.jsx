@@ -6,20 +6,22 @@ import TextField from "../common/form/textField";
 import TextAreaField from "../common/form/textAreaField";
 import {createProduct, updateProduct} from "../../store/products";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import {useDispatch} from "react-redux";
 import configFile from "../../config.json";
 import { UploadFileToFireBaseStorage } from "../../utils/filesToFromFirebaseStorage";
-import { uploadImageActiveProductStart } from "../../services/localStorage.service";
+import {uploadImageActiveProductStart} from "../../services/localStorage.service";
 import { useNavigate } from "react-router-dom";
 import { TrashIcon } from '@heroicons/react/24/solid';
 import { deleteFileInActiveProduct, updateActiveProduct } from "../../store/activeProduct";
 import Title from "../title";
+import {loadAutorProducts} from "../../store/autorProducts";
 
 const ProductEditForm = ({ path, currentUser, param, productId, activeProduct }) => {
     const intl = useIntl();
     const dispatch = useDispatch();
-    const savedData = { ...activeProduct, price: String(activeProduct.price), shipping: String(activeProduct.shipping)  };
+    const savedData = { ...activeProduct, quantity: String(activeProduct.quantity), price: String(activeProduct.price), shipping: String(activeProduct.shipping)  };
     const navigate = useNavigate();
+
     let newAP = { ...savedData };
 
     const validatorConfig = {
@@ -48,7 +50,7 @@ const ProductEditForm = ({ path, currentUser, param, productId, activeProduct })
     const handleSubmit = (data) => {
         const haveImage = data.image ? [...data.image] : [];
         data.currencies = "USD"
-        console.log(data)
+        // console.log(data)
         const files = document.querySelector(`#avatar`).files;
 
         if (files && files.length > 0) {
@@ -77,14 +79,18 @@ const ProductEditForm = ({ path, currentUser, param, productId, activeProduct })
         }
     };
     function UpLoad(data) {
+        toast.info(intl.messages["data_saved"]);
         if(data._id) {
             dispatch(updateProduct(data));
+            dispatch(updateActiveProduct(data));
+            navigate(-1);
         } else {
-            dispatch(createProduct(data))
+            dispatch(createProduct(data));
+            // console.log(currentUser);
+            dispatch(loadAutorProducts(currentUser));
+            // TODO надо перекидывать на "/myshop/products" (но там еще нет этого товара в списке), а лучше на страницу товара, но нет _id, и как его тут поймать, не придумал.
+            navigate("/");
         }
-        dispatch(updateActiveProduct(data));
-        toast.info(intl.messages["data_saved"]);
-        navigate(-1);
     };
     const recalculation = (data, setData) => {
         if (newAP.image !== data.image) {
@@ -113,7 +119,6 @@ const ProductEditForm = ({ path, currentUser, param, productId, activeProduct })
     const imagesNext = images.length > 1 ? images.filter((i, idx) => idx > 0) : [];
     return (
         <Page backArrow={true} title={activeProduct.name ? activeProduct.name : "Добавление нового товара"} noTranslate={true} widthScreen="w-full lg:my-5 lg:px-5 lg:p-5 mx-auto bg-state-300 rounded border-2 shadow-md">
-            {/* <div className="flex flex-col lg:flex-row gap-5 relative"> */}
             <div className="flex flex-col lg:grid lg:grid-cols-3 lg:grid-rows-2 gap-5 relative">
 
                 <div className="w-full lg:col-span-2 lg:row-span-2 lg:p-5 bg-slate-200 p-2">
@@ -162,34 +167,6 @@ const ProductEditForm = ({ path, currentUser, param, productId, activeProduct })
                             label={<FormattedMessage id='country' />}
                             name="country"
                         />
-                        {/* <TextField
-                    label={<FormattedMessage id='date_of_birth' />}
-                    name="dateOfBirth"
-                    type="date"
-                    max={today}
-                /> */}
-                        {/* <TextField
-                                label={<FormattedMessage id='full_years' />}
-                                name="fullYears"
-                                readOnly="readonly"
-                                disabled={true}
-                                noValid={true}
-                            /> */}
-                        {/* <RadioField
-                    options={[
-                        { name: <FormattedMessage id='male' />, value: "male", description: "" },
-                        { name: <FormattedMessage id='female' />, value: "female", description: "" }
-                    ]}
-                    name="sex"
-                    label={<FormattedMessage id='choose_your_gender' />}
-                    valueDefault={savedData.sex}
-                /> */}
-                        {/* <TextField
-                    label={<FormattedMessage id='your_telegram_profile' />}
-                    labelLeft={<i className="bi bi-telegram icon-size-big"></i>}
-                    type="text"
-                    name="telegram"
-                /> */}
                         <SubmitCancelButton name="submitCancelButton">
                             <ButtonField type="submit" name="submit" label="save_changes" />
                             <ButtonField type="cancel" name="cancel" label="cancel_changes" />

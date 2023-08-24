@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import ProductService from "../services/product.service";
 import CommentService from "../services/comment.service";
-import viewedReducer from "./viewed";
 import UserService from "../services/user.service";
 
 const initialState = {

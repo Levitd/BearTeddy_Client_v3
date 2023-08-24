@@ -88,7 +88,8 @@ export const addProductInShoppingCard=(payload) =>async (dispatch)=>{
         //сразу запрошу обновление массива с полной информацией о товарах в корзине, иначе, при переходе в корзину не обновляется массив
         dispatch(loadBasketProductArray( content.products.map(v => v.product_id)))
     } catch (error) {
-        const { code, message } = error.response.data.error;
+        console.log( error.response)
+        const { code, message } = error.response.data;
         if (code === 400) {
             const errorMessage = generateAuthError(message);
             dispatch(shopCardRequestFiled(errorMessage));

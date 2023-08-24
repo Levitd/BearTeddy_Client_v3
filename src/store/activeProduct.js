@@ -57,7 +57,7 @@ export const deleteFileInActiveProduct = (fileName) => (dispatch, getState) => {
     dispatch(deleteFile(fileName));
 }
 export const updateActiveProduct = (data) => (dispatch, getState) => {
-    console.log(data);
+    // console.log(data);
     dispatch(activeProductsUpdate(data));
 }
 export const clearActivePageData = () => dispatch => {

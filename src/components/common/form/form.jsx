@@ -34,14 +34,12 @@ const FormComponent = ({
     };
     useEffect(() => {
         // if (Object.keys(data).length > 0) {
-        console.log(data)
             validate(data);
             recalculation(data, setData);
         // }
     }, [data, validate, recalculation]);
     const handleCancel = (e) => {
         e.preventDefault();
-        console.log("Нажали Cancel");
         setData(defaultData);
     }
     const handleKeyDown = useCallback((event) => {
@@ -126,7 +124,7 @@ const FormComponent = ({
                 const cloneButtonElement = React.Children.map(child.props.children, (butChild, idx) => {
                     // console.log(butChild.props);
                     if (butChild.props.name === "submit") {
-                        console.log('disabled',!isValid)
+                        // console.log('disabled',!isValid)
                         configBut = { ...butChild.props, disabled: !isValid, key: "s_" + idx + 1 };
                     } else if (butChild.props.name === "cancel") {
                         configBut = { ...butChild.props, onClick: handleCancel, key: "c_" + idx + 1 };
